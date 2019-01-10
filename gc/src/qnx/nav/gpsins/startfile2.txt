@@ -1,0 +1,4 @@
+ID=GPSINS NODE=gcrear0 on -f gcrear0 /net/gcrear1/home/nagle/sandbox/gc/src/qnx/nav/gpsins/x86/o-g/gpsins_g  -a /net/gcrear0/dev/ser2 -g /net/gcrear0/dev/ser3
+# ID=GPSINS_GUI /home/nagle/sandbox/gc/src/qnx/nav/gpsins_gui/src/gcc_ntox86_cpp/gpsins_gui
+ID=RGPSINS NODE=gcrear0 on -f gcrear0 /net/gcrear1/home/nagle/sandbox/gc/src/qnx/support/remotemsgserver/x86/o/remotemsgserver GPSINS
+ID=GPSLOGGER /home/nagle/sandbox/gc/src/qnx/nav/gpsins_logger/x86/o-g/gpsins_logger_g  -d /tmp/logs

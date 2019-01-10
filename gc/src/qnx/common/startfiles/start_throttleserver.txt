@@ -1,0 +1,19 @@
+#
+#  File: start_throttleserver.txt
+#
+#  Usage:
+#      cd ~/sandbox/gc/src/qnx/common/startfile
+#      ../bin/watchdog start_throttleserver.txt
+#
+#  Description:
+#      Watchdog startup file for Throttle Server testing.
+#
+#  Written by:
+#      Khian Hao Lim
+#      Team Overbot
+#      December, 2003
+#  Based on Celia Oakley's Brake Server
+#
+###############################################################################
+ID=MVP4 pterm ../bin/mvpserver -m
+ID=THROTTLE pterm ../bin/throttleserver_g -m

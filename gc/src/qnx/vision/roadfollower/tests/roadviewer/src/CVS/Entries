@@ -1,0 +1,26 @@
+/Makefile/1.1/Tue Nov  4 18:51:30 2003//
+/abHfiles/1.1/Tue Nov  4 18:51:30 2003//
+/abLfiles/1.1/Tue Nov  4 18:51:30 2003//
+/abOfiles/1.1/Tue Nov  4 18:51:30 2003//
+/abSfiles/1.1/Tue Nov  4 18:51:30 2003//
+/abWfiles/1.1/Tue Nov  4 18:51:30 2003//
+/ablibs.h/1.1/Tue Nov  4 18:51:30 2003//
+/base_window_closing.c/1.1/Tue Nov  4 18:51:30 2003//
+/base_window_opening.c/1.1/Tue Nov  4 18:51:30 2003//
+/camera_run_button.c/1.1/Tue Nov  4 18:51:30 2003//
+/indHfiles/1.1/Tue Nov  4 18:51:30 2003//
+/indSfiles/1.1/Tue Nov  4 18:51:30 2003//
+/redraw_timer.c/1.1/Tue Nov  4 18:51:30 2003//
+/video_port_draw.c/1.1/Tue Nov  4 18:51:30 2003//
+D/gcc_ntox86////
+/abdefine.h/1.2/Thu Jan  1 02:55:30 2004//
+/abevents.h/1.2/Thu Jan  1 02:55:30 2004//
+/abimport.h/1.2/Thu Jan  1 02:55:30 2004//
+/ablinks.h/1.2/Thu Jan  1 02:55:30 2004//
+/abmain.c/1.2/Thu Jan  1 02:55:30 2004//
+/abvars.h/1.2/Thu Jan  1 02:55:30 2004//
+/abwidgets.h/1.2/Thu Jan  1 02:55:30 2004//
+/file_open_dlg_open.c/1.2/Thu Jan  1 02:55:31 2004//
+/cameraread.cpp/1.17/Mon Jul 18 05:55:43 2005//
+/cameraread.h/1.8/Mon Jul 18 05:55:43 2005//
+/indOfiles/1.6/Mon Jul 18 05:55:43 2005//

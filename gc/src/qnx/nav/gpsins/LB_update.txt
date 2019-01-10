@@ -1,0 +1,79 @@
+Hello Khian Hao,
+
+ Thank-you for that VERSION output message; that is exactly what I 
+ needed.
+
+ There are two items that require updating on this ProPak-LB unit;
+ the OEM4-G2 firmware to version 2.130B5 and the iBoard DSP firmware
+ to version 1.004b6.
+
+ I have file attached to this email an archive that contains the
+ .HEX files for both of these firmware updates, as well as the 
+ WinLoad software that you can use to load the .HEX files onto the
+ ProPak-LB unit.  There's also a general .TXT file that helps 
+ describe how to load the OEM4 .HEX file; loading the DSP .HEX file
+ is very similar except you do not require an authcode for it.
+
+ Here is the OEM4 FW 2.130b5 authorization code that you will
+ require to update the firmware on this ProPak-LB unit:
+
+ PSN: SVA03300138
+ Model: RT2WHPB
+ Software Rev: 2.130B5
+ Auth Code: 6138,077F,61D8,A17E,545A,RT2WHPB
+
+ After you have updated both the OEM4 and the DSP .HEX files, make
+ sure you do the FRESET command first so that the NVM table inside
+ the ProPak-LB unit is formatted to match these new firmware 
+ updates.
+
+ Best Regards, Clint.
+
+ Applications Engineer
+ NovAtel GPS Customer Support
+
+ Email: Clint.Waller@novatel.ca
+ Phone: 1-800-NOV-ATEL ext: 4504 (North America)
+(403) 295-4504 (International)
+ Fax:       (403) 295-4901
+
+-----Original Message-----
+From: Khian Hao Lim [mailto:khianhao@stanford.edu]
+Sent: Saturday, December 13, 2003 3:32 PM
+To: cwaller@novatel.ca
+Cc: khianhao.net@khianhao.net
+Subject: [novatel propak lb firmware]
+
+
+Hi Clint,
+
+I emailed you previously about the beta firmware you mentioned for the 
+propak lb to help with the reacquisition of omnistar hp.
+
+My log version is:
+
+<ERROR:Message missing field
+[COM1]
+<OK
+[COM1]<VERSION COM1 0 88.0 UNKNOWN 0 772.031 004c0020 3681 1374
+<     4
+<          GPSCARD "RT2WHPB" "SVA03300138" "OEM4g2-3.01-
+X2T" "2.110" "2.100" "20
+03/Sep/11" "15:56:41"
+<          
+DB_OMNISTARXILINX "OmniXilinx" "0" "" "103" "" "2002/Jul/26" "08:56:5
+2"
+<          
+DB_OMNISTARDSP "OmniDSP" "0" "" "1.002" "" "2003/Feb/21" "17:14:58"
+<          IBOARD "OMNISTAR" "9DDBB8C1" "6.02-103" "1.002" "758800" "" ""
+[COM1]
+
+
+Is that what you need? 
+
+Hope to hear from you soon. Thanx
+
+Khian Hao
+
+
+

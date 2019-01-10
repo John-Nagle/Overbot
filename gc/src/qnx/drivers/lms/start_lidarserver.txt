@@ -1,0 +1,18 @@
+#
+#  File: start_lidarserver.txt
+#
+#  Usage:
+#      cd ~/sandbox/gc/src/qnx/common/startfile
+#      ../bin/watchdog start_lidarserver.txt
+#
+#  Description:
+#      Watchdog startup file for Lidar Server testing.
+#
+#		Runs LIDAR server on local machine. This wll cause timeouts over a WiFI link.
+#		Use start_lidarserver_gcrear0.txt for more serious testing
+###############################################################################
+PRI=15 ID=LMS  on -f gcrear0 /net/fox/home/nagle/sandbox/gc/src/qnx/drivers/lms/x86/o/lms  -c LIDARDUMP
+# ID=LMS pterm -Z ./x86/o-g/lms_g  -c LIDARDUMP
+PRI=15 ID=LIDARDUMP pterm -Z ./tests/lmslogger_test/x86/o-g/lmslogger_test_g -t -n 100000 /tmp/logs
+
+

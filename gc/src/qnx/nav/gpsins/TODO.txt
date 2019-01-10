@@ -1,0 +1,54 @@
+todo:
+
+- firmware test and possibly revert if necessary
+- make it stream by default (and recoverable by software)
+- test ahrs with gcrear computer and power supply
+- test ahrs integration
+- test ahrs signs with no gps
+- issues with grid north (llh), true north (vel), mag north (mag), find
+- llh of starting point
+
+
+optimization:
+- use gps for yaw correction
+
+- manual : http://www.overbot.com/public/devfw-ohci.html
+
+look at for odometry:
+http://www.acfr.usyd.edu.au/teaching/3rd-year/mech3700-Mx2/material/lectures/sensors/PDFs/dead_reck_sensors.pdf
+
+- document the external interface (man page):
+  - diagrams of ned
+  - two norths
+  - autopilot
+  - refer to my ee report
+  - how to run the program from comand line
+  
+- test logging and readback of data
+
+tests:
+
+- ahrs, gps when vehicle is on
+- drive around with odometry (1st approximation without using steering angle)
+  get circular accuracy test
+
+possible problems:
+
+- ahrs need startup time (5 min initially)
+- gps need startup time (30 min initially)
+
+- gps needs reacquisiton time (30 min)
+- kf zeroing needs a known initial location
+
+
+--------------------------------------------------
+qns for gps:
+- what does rtk really mean
+- how does omnistar really work
+- how does novatel really work
+
+--------------------------------------------------
+improvements:
+
+- in gps loss, use map, vision to determine position
+http://www.novatel.com/Documents/Papers/File37.pdf

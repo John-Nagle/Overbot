@@ -1,0 +1,8 @@
+/Makefile///
+/README.txt///
+/common.mk///
+/hiddconnection.cc///
+/hiddconnection.hpp///
+D/x86///
+/startohci.sh///
+/startuhci.sh///

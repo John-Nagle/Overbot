@@ -1,0 +1,53 @@
+Outline for Asilomar Talk
+
+Grand Challenge Overview
+
+2004 results
+
+Why did everyone fail?
+
+Team Overbot
+
+- vehicle pictures
+
+The need for better perception technology
+
+- vision - hard AI problem
+- submillimeter radar - hard electronics problem
+- LIDAR - hard profitability problem
+
+LIDAR line scanners
+- Work fine
+- Off the shelf products almost there
+- Small volume products
+- Hard to assemble 3D image from line scanner while bouncing around
+
+CMU's approach
+- Line scanner in huge 3-axis stabilized gimbal
+- Works, marginally, but clearly not suitable for production
+
+Our first approach
+- Line scanner in huge 1-axis servoed gimbal on shock mounts
+- Marginal
+
+LIDAR area scanners
+- True 3D camera
+- Short-range all electronic devices exist
+- Longer range devices require scanning to overcome square law
+- Existing 3D scanners are one-off mechanical kludges
+
+If this is to become a production technology for civilian
+and military automatic driving, we need a technology that
+can be built in volume at low cost.
+
+Rough design for a solid state area scanner
+- MEMS mirror for outgoing beam
+- Array of PIN diodes for detector
+
+Custom detector chip needed
+- Array of PIN diodes, maybe avalanche diodes
+- Not necessarily one per pixel
+- Sunlight on some pixels must not wipe out adjacent pixels
+- Diodes must be small, low-capacitance to 
+- Per-pixel logic must gate 200ps risetime signal to timer.
+

@@ -1,0 +1,18 @@
+#khianhao 11/17/03 Team Overbot
+#The start file that we will finally use on the vehicle
+#watchdog timer will start in gcrear1 and start off all programs
+#based on single line diagram of data paths description
+
+#the binary path should be the path at the remote node
+
+#on remote display computer
+ID=RCMODE_GUI NODE=gcrear1 /home/vehicle/bin/rcmode_gui
+
+#on gcchassis
+ID=MVPC NODE=gcchassis pterm /home/vehicle/bin/mvpserver
+ID=DIR NODE=gcchassis pterm /home/vehicle/bin/dirserver
+
+#on gctop
+
+#on gcrear0
+

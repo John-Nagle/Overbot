@@ -1,0 +1,62 @@
+Date: Mon, 22 Mar 2004 17:28:50 -0800
+From: Chris Richtsmeier <chrisr@galilmc.com>
+To: John Nagle <nagle@animats.com>
+Subject: Re: Will send picture of ICM-1460
+  
+
+John,
+
+Inverting the resitor pack RP5 180° will cause the polarity of the 
+signal to be reversed.  You can see the effect if you look at RP5 on 
+page 2 of the schematic that I sent to you.
+
+Best Regards,
+Chris Richtsmeier
+Applications Engineer
+Galil Motion Control
+916-626-0101 x120
+
+John Nagle wrote:
+
+>   That's very helpful.
+>
+>   Next question: why does SB 1 turn Output 1 off, and CB 1 turn it on?
+> Is there an inverter in there somewhere?  Is this a configuration
+> parameter?  Or what?
+>
+>   We'd like to have the outputs come up at OFF. Some of them
+> drive solid state relays that need to come up in the off state.
+>
+>                 John Nagle
+>
+> Chris Richtsmeier wrote:
+>
+>> John,
+>>
+>> I apologize for the delay earlier.  We were able to find your order,  
+>> somehow the company information wasn't entered properly so my 
+>> searches didn't bring it up.  I didn't show any specific options that 
+>> you ordered for the Opto Output Common.  This would mean that it is 
+>> internally tied to our GND and 5V.  I have attached the documentation 
+>> necessary to make any of the changes that you desire, otherwise you 
+>> can return the parts to us to configure to a specific option.  Note 
+>> the instructions are for Rev. F only.  Please let me know if you have 
+>> any further questions.
+>>
+>> Best Regards,
+>> Chris Richtsmeier
+>> Applications Engineer
+>> Galil Motion Control
+>> 916-626-0101 x120
+>>
+>> John Nagle wrote:
+>>
+>>>  Per your request, I will send a picture of our ICM-1460 box
+>>> so that you can figure out what options it has installed.
+>>>
+>>>                 John Nagle
+>>>                 Team Overbot
+>>
+>>
+>>
+>>

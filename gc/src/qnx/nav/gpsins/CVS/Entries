@@ -1,0 +1,35 @@
+/FOG.cc/1.3/Thu Oct 30 08:16:35 2003//
+/FOG.h/1.4/Sun Nov  2 22:44:30 2003//
+/METER.cc/1.2/Sun Oct 26 23:55:07 2003//
+/METER.h/1.3/Sun Nov  2 22:44:30 2003//
+/antenna-mount.txt/1.1/Wed Oct 29 10:20:35 2003//
+/common.mk/1.1/Sun Oct 26 17:13:42 2003//
+/gpsins-thread.cc/1.2/Sun Oct 26 23:55:07 2003//
+/main.cc/1.4/Sun Nov  2 22:44:30 2003//
+/man.html/1.1/Wed Nov  5 07:05:57 2003//
+/meter-thread.cc/1.3/Sun Nov  2 22:44:30 2003//
+/myserial.h/1.2/Sun Nov  2 22:44:30 2003//
+/rxconfig.txt/1.1/Wed Oct 29 09:04:19 2003//
+/ser_settings.txt/1.1/Sun Oct 26 23:38:23 2003//
+/ser_settings_a.txt/1.1/Sun Oct 26 23:38:23 2003//
+/ser_settings_g.txt/1.1/Sun Oct 26 23:38:23 2003//
+/software_tips.txt/1.1/Thu Oct 30 08:16:35 2003//
+/thread.h/1.5/Mon Nov  3 00:58:59 2003//
+/typical_omnistar_log.txt/1.1/Wed Oct 29 09:04:19 2003//
+D/report////
+D/x86////
+/Kalman_Filter.h/1.6/Fri Nov 14 18:39:26 2003//
+/LB_update.txt/1.1/Mon Dec 15 19:22:29 2003//
+/README.txt/1.4/Thu Jan  1 02:55:07 2004//
+/TODO.txt/1.15/Thu Jan  1 02:55:07 2004//
+/doc.txt/1.4/Sat Feb 21 20:57:31 2004//
+/GPS.h/1.9/Thu Sep 30 06:44:06 2004//
+/myserial.cc/1.5/Thu Sep 30 06:44:06 2004//
+/startfile.txt/1.3/Thu Sep 30 06:44:06 2004//
+/startfile2.txt/1.3/Sun Jan 23 02:44:26 2005//
+/AHRS.h/1.6/Sat Feb 12 06:46:51 2005//
+/Kalman_Filter.cc/1.10/Sat Feb 12 06:46:51 2005//
+/AHRS.cc/1.12/Wed Apr 27 17:05:31 2005//
+/Makefile/1.5/Wed Apr 27 17:05:31 2005//
+/GPS.cc/1.15/Mon Jul 18 05:55:39 2005//
+/server-thread.cc/1.13/Mon Jul 18 05:55:39 2005//

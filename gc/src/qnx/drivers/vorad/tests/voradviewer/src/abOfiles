@@ -1,0 +1,1 @@
+ABOBJ = abmain.o base_window_close.o base_window_open.o redraw_timer.o vorad_port_draw.o vorad_run_button.o 

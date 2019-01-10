@@ -1,0 +1,26 @@
+#
+#  File: start_check_mvp
+#
+#  Usage:
+#      cd ~/sandbox/gc/src/qnx/common/startfile
+#      ../bin/watchdog start_check_mvp.txt
+#
+#      Note: after starting up these processes, you will need to initialize
+#            the MVP Server.  To do this, go to the mvpserver window and
+#            select the 'm' menu.  Then select the 'w' option and type in the
+#            watchdog ID for the mvpserver process (the original version of 
+#            this file has MVPC).  Then select the 'i' option and select
+#            the defaults: /dev/ser1, 38,400 baud, and 100000 usec timeout,
+#            or enter in other values.
+#
+#  Description:
+#      Watchdog startup file for MVP testing.
+#
+#  Written by:
+#      Celia Oakley
+#      Team Overbot
+#      November, 2003
+#
+##############################################################################
+ID=MVPC pterm ../bin/mvpserver_g -m
+ID=check_mvp pterm ../bin/check_mvp_g

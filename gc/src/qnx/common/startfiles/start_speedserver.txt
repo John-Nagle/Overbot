@@ -1,0 +1,18 @@
+#
+#  File: start_speedserver.txt
+#
+#  Usage:
+#      cd ~/sandbox/gc/src/qnx/common/startfile
+#      ../bin/watchdog start_speedserver.txt
+#
+#  Description:
+#      Watchdog startup file for Speed Server 
+#
+#  Written by:
+#      Achut Reddy
+#      Team Overbot
+#      January, 2004
+#
+###############################################################################
+ID=SPEED pterm -Z ../bin/speed_g -v
+

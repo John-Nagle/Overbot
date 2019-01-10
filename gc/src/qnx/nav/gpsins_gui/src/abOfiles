@@ -1,0 +1,1 @@
+ABOBJ = abmain.o addwaypoint.o artHorizonDraw.o artHorizonInit.o clear.o closewaypointfile.o compassDraw.o compassInit.o myTimerActivate.o myTimerRealized.o positionViewDraw.o positionViewInit.o quit.o start.o togglePause.o trendUncRealized.o waypoint_file_dlg_open.o zero.o zoomIn.o zoomOut.o 

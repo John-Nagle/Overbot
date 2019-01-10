@@ -1,0 +1,226 @@
+License keys for Mindready LLA package for Overbot
+
+For fox.overbot.org:
+
+Device ID:
+
+	Installing 1394-OHCI adapter 00301B:AD00000F75... FAILED (Bad licence) 
+
+License key:
+	UID: 00301BAD00000F75
+	LK:  2C4JA-GR6KE-1DI55-PGJFG8
+
+
+===============
+For gcback0.overbot.org
+
+Device ID:
+
+	Installing 1394-OHCI adapter 000000:008888E4A2... FAILED (Bad licence)
+
+License key:
+Software S/N: 20024025
+Board UID:    000000008888E4A2
+License Key:  0DA70-S382F-1CCKH-P0JLG0
+
+===
+We get these from
+
+Maxime Barbeau
+Technical Support Team 
+Embedded Systems 
+
+Mindready Solutions 
+2800 Marie-Curie Avenue 
+Saint-Laurent (Quebec) 
+Canada H4S 2C2 
+Tel. 1 (514) 339-1394 # 2225 
+Fax 1 (514) 339-1376 
+support1394@mindready.com
+www.mindready.com 
+
+Tney're installed into the lla1394libMulti.so and lla1394libMulti.a files with "licgui".
+Only install into one file per "licgui" session; the program is broken.
+Up to eight keys can be installed into one copy of the .so and .a files, so it's
+possible to put all keys into all copies, for portability.
+
+=====
+Additional Mindready keys for replacement GCREAR0
+
+>>  -----Original Message-----
+>> From: 	Stenger, Laurent  
+>> Sent:	Friday, September 02, 2005 9:44 AM
+>> To:	'nagle@overbot.com'
+>> Subject:	License requested
+>> 
+>> Hi Mr.Nagle
+>> 
+>> 
+>> We are sorry for the problem you encounter, we are currently changing the
+>> technical support system to offer our customers a better service, 
+>> 
+>> I was able to track you serial number over the Web site and I found for
+>> you, your company code, you can try to enter this information on the
+>> license generator in order to
+>> 
+>>  generate the key, or if you want, the more secure way and the fastest
+>> way,  I'm going to do it for you if you send me the info about your card
+>> 
+>> 
+>> So just send me  your: adapter ID ( 16 digits or letters)
+>> 
+>> 
+>> *	 8-digit license certificate number: 20024026
+>> 
+>> *	an adapter UID : 000000:008888E48D
+>> 
+>> 
+>> *	 a 4-digit "company code": 1026
+>> 
+>> 
+>> 
+
+The licence is :0C2N8-GJ803-0S7H1-80JLO8
+
+
+[USELESS - wrong adapter number.]
+
+>> Laurent Stenger 
+>> Technical support, Engineer Jr
+>> Mindready Solutions Inc. 
+>> 2800 Marie-Curie Avenue 
+>> Saint-Laurent (Quebec) 
+>> Canada H4S 2C2 
+>> Tel. (1) 514-339-1394 Ext. 2193 
+>> <mailto:laurent.stenger@mindready.com> 
+>> www.mindready.com 
+>> 
+>> 
+
+Our company code is 1026
+Kareim Lechilli - new contact at Mindready
+
+=====
+>-----Original Message-----
+>> From: 	Stenger, Laurent  
+>> Sent:	Tuesday, September 06, 2005 9:34 AM
+>> To:	'nagle@overbot.com'
+>> Cc:	'nagle@animats.com'
+>> Subject:	License requested
+>> 
+>> 
+>> 	Hi Mr.Nagle
+>> 
+>> 
+>> 	We are sorry for the problem you encounter, Here the right Licence
+>> number for your card
+>> 
+>> 	The only verry important thing for the website, is that for the
+>> adapter UID : we must not put the ( : ) in the number, or it will generate
+>> a false licence, it is what happen 
+>> 
+>> 	there.
+>> 
+>> 	 I apologize again for the delay
+>> 
+>> *	 8-digit license certificate number:20024026
+>> 
+>> *	an adapter UID : 000000:008888E48D
+>> 
+>> 
+>> *	 a 4-digit "company code": 1026
+>> 
+>> 
+>> 
+>> 				The licence is :0CA30-SB82A-0CCK1-8HJLO0 
+>> 
+>> Laurent Stenger 
+>> Technical support, Engineer Jr
+>> Mindready Solutions Inc. 
+>> 2800 Marie-Curie Avenue 
+>> Saint-Laurent (Quebec) 
+>> Canada H4S 2C2 
+>> Tel. (1) 514-339-1394 Ext. 2193 
+>> <mailto:laurent.stenger@mindready.com> 
+>> www.mindready.com 
+>> 
+>> 
+> Hi Mr. Nagle
+> 
+> Normally, i would need you to send me back the defective card before sending
+> you a new licence key, for security reasons, but for this time it's gonna be
+> okay, because we are trying to give you the best tech support we can
+> 
+> so the new license key will be:
+> 
+> Licence for the UID 000000008888E518 
+> 
+> the Licence is : 0EAN2-K382A-0TCG1-O1JL80 
+> 
+> Compagny code: 1026
+
+
+====
+Hi Mr Nagle
+
+The License for the UID 000000008A003B91 is : 4D87A-O302E-0TC51-8GL5G8 
+
+Thanks,
+
+Laurent
+
+-----Original Message-----
+From: John Nagle [mailto:nagle@overbot.com]
+Sent: Tuesday, September 20, 2005 5:03 PM
+To: Stenger, Laurent
+Cc: aturner@tri-m.com
+Subject: Re: License Prices
+
+
+   The motherboard and FireWire chip bound to LLA
+license serial number SN 20024026 has failed.  Attached
+is a confirmation from the manufacturer of the system.
+We would like that serial number unlocked in your database
+so we can bind it to the replacement motherboard, or 
+to receive a new key for the replacement board
+
+   The replacement board is
+
+Installing 1394-OHCI adapter 000000:008A003B91... FAILED (Bad licence)
+
+   We realize this is a hassle for you, but we did buy a total
+of three licenses, only one of which we can actually use at
+the moment.  From our side, it's a huge headache. We're going
+to the DARPA Grand Challenge in a week, and we're down again. 
+
+				John Nagle
+				Team Overbot
+				650-326-9109
+
+   
+Stenger, Laurent wrote:
+
+>> Hi Mr Nagle
+>> 
+>> Send your order by fax at (514) 339-9493 or send it by mail at
+>> po@mindready.com with the credit form
+>> 
+>> Thank you
+>> 
+>> 
+>> 
+>> Laurent Stenger 
+>> Technical support, Engineer Jr
+>> Mindready Solutions Inc. 
+>> 2800 Marie-Curie Avenue 
+>> Saint-Laurent (Quebec) 
+>> Canada H4S 2C2 
+>> Tel. (1) 514-339-1394 Ext. 2193 
+>> <mailto:laurent.stenger@mindready.com> 
+>> www.mindready.com 
+>> 
+
+
+
+
+

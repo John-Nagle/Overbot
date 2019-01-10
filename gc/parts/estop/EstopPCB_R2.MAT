@@ -1,0 +1,250 @@
+----------------------------------
+MicroCode Engineering   TraxMaker
+Gerber Aperture Match List
+PCB File : GERBER$$.PCB
+APT File : C:\Documents and Settings\rsheridan\Desktop\Overbot\EStop PCB Files\R2\EstopPCB_R2
+Date     : 12/3/2003
+Time     : 6:00:55 PM
+----------------------------------
+ASSIGNING       : Pad     Circular        (150 x 150)    PWR/GND
+Flash Method    : D11     Circular        (150 x 150)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (150 x 150)    PAS MSK
+Flash Method    : D11     Circular        (150 x 150)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (150 x 150)    SOL MSK
+Flash Method    : D11     Circular        (150 x 150)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (150 x 150)           
+Flash Method    : D11     Circular        (150 x 150)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (112 x 112)    PWR/GND
+Flash Method    : D12     Circular        (112 x 112)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (112 x 112)    PAS MSK
+Flash Method    : D12     Circular        (112 x 112)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (112 x 112)    SOL MSK
+Flash Method    : D12     Circular        (112 x 112)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (112 x 112)           
+Flash Method    : D12     Circular        (112 x 112)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (120 x 120)    PAS MSK
+Flash Method    : D13     Circular        (120 x 120)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (120 x 120)    SOL MSK
+Flash Method    : D13     Circular        (120 x 120)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (120 x 120)           
+Flash Method    : D13     Circular        (120 x 120)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (120 x 120)    PWR/GND
+Flash Method    : D13     Circular        (120 x 120)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (130 x 130)    PWR/GND
+Flash Method    : D14     Circular        (130 x 130)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (130 x 130)    PAS MSK
+Flash Method    : D14     Circular        (130 x 130)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (130 x 130)    SOL MSK
+Flash Method    : D14     Circular        (130 x 130)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (130 x 130)           
+Flash Method    : D14     Circular        (130 x 130)    0 (Hole Size)
+
+ASSIGNING       : Track                   (140)                 
+Stroke Y Method : D15     Circular        (140 x 140)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (140 x 140)    PWR/GND
+Flash Method    : D15     Circular        (140 x 140)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (140 x 140)    PAS MSK
+Flash Method    : D15     Circular        (140 x 140)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (140 x 140)    SOL MSK
+Flash Method    : D15     Circular        (140 x 140)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (140 x 140)           
+Flash Method    : D15     Circular        (140 x 140)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (110 x 110)    PWR/GND
+Flash Method    : D16     Circular        (110 x 110)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (110 x 110)    PAS MSK
+Flash Method    : D16     Circular        (110 x 110)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (110 x 110)    SOL MSK
+Flash Method    : D16     Circular        (110 x 110)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (110 x 110)           
+Flash Method    : D16     Circular        (110 x 110)    0 (Hole Size)
+
+ASSIGNING       : Track                   (100)                 
+Stroke Y Method : D17     Circular        (100 x 100)    0 (Hole Size)
+
+ASSIGNING       : Track                   (150)                 
+Stroke Y Method : D11     Circular        (150 x 150)    0 (Hole Size)
+
+ASSIGNING       : Track                   (125)                 
+Stroke Y Method : D18     Circular        (125 x 125)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (100 x 100)    PWR/GND
+Flash Method    : D17     Circular        (100 x 100)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (100 x 100)    PAS MSK
+Flash Method    : D17     Circular        (100 x 100)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (100 x 100)    SOL MSK
+Flash Method    : D17     Circular        (100 x 100)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (100 x 100)           
+Flash Method    : D17     Circular        (100 x 100)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (90 x 90)      PWR/GND
+Flash Method    : D19     Circular        (90 x 90)      0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (90 x 90)      PAS MSK
+Flash Method    : D19     Circular        (90 x 90)      0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (90 x 90)      SOL MSK
+Flash Method    : D19     Circular        (90 x 90)      0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (90 x 90)             
+Flash Method    : D19     Circular        (90 x 90)      0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (72 x 72)      PWR/GND
+Flash Method    : D20     Circular        (72 x 72)      0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (72 x 72)      PAS MSK
+Flash Method    : D20     Circular        (72 x 72)      0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (72 x 72)      SOL MSK
+Flash Method    : D20     Circular        (72 x 72)      0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (72 x 72)             
+Flash Method    : D20     Circular        (72 x 72)      0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (89 x 89)      PWR/GND
+Flash Method    : D21     Circular        (89 x 89)      0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (89 x 89)      PAS MSK
+Flash Method    : D21     Circular        (89 x 89)      0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (89 x 89)      SOL MSK
+Flash Method    : D21     Circular        (89 x 89)      0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (89 x 89)             
+Flash Method    : D21     Circular        (89 x 89)      0 (Hole Size)
+
+ASSIGNING       : Track                   (15)                  
+Stroke Y Method : D22     Circular        (15 x 15)      0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (125 x 125)    PWR/GND
+Flash Method    : D18     Circular        (125 x 125)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (125 x 125)    PAS MSK
+Flash Method    : D18     Circular        (125 x 125)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (125 x 125)    SOL MSK
+Flash Method    : D18     Circular        (125 x 125)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (125 x 125)           
+Flash Method    : D18     Circular        (125 x 125)    0 (Hole Size)
+
+ASSIGNING       : Track                   (200)                 
+Stroke Y Method : D23     Circular        (200 x 200)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (62 x 62)      PWR/GND
+Flash Method    : D24     Circular        (62 x 62)      0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (62 x 62)      PAS MSK
+Flash Method    : D24     Circular        (62 x 62)      0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (62 x 62)      SOL MSK
+Flash Method    : D24     Circular        (62 x 62)      0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (62 x 62)             
+Flash Method    : D24     Circular        (62 x 62)      0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (60 x 60)      PWR/GND
+Flash Method    : D25     Circular        (60 x 60)      0 (Hole Size)
+
+ASSIGNING       : Via                     (60)           PAS MSK
+Flash Method    : D25     Circular        (60 x 60)      0 (Hole Size)
+
+ASSIGNING       : Via                     (60)           SOL MSK
+Flash Method    : D25     Circular        (60 x 60)      0 (Hole Size)
+
+ASSIGNING       : Via                     (60)                  
+Flash Method    : D25     Circular        (60 x 60)      0 (Hole Size)
+
+ASSIGNING       : Track                   (120)                 
+Stroke Y Method : D13     Circular        (120 x 120)    0 (Hole Size)
+
+ASSIGNING       : Track                   (250)                 
+Stroke Y Method : D26     Circular        (250 x 250)    0 (Hole Size)
+
+ASSIGNING       : Text                    (10)                  
+Stroke Y Method : D27     Circular        (10 x 10)      0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (300 x 300)    PWR/GND
+Flash Method    : D28     Circular        (300 x 300)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (300 x 300)    PAS MSK
+Flash Method    : D28     Circular        (300 x 300)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (300 x 300)    SOL MSK
+Flash Method    : D28     Circular        (300 x 300)    0 (Hole Size)
+
+ASSIGNING       : Pad     Circular        (300 x 300)           
+Flash Method    : D28     Circular        (300 x 300)    0 (Hole Size)
+
+ASSIGNING       : Track                   (60)                  
+Stroke Y Method : D25     Circular        (60 x 60)      0 (Hole Size)
+
+ASSIGNING       : Track                   (12)                  
+Stroke Y Method : D29     Circular        (12 x 12)      0 (Hole Size)
+
+ASSIGNING       : Track                   (10)                  
+Stroke Y Method : D27     Circular        (10 x 10)      0 (Hole Size)
+
+ASSIGNING       : Pad     Rectangular     (120 x 120)    PAS MSK
+Flash Method    : D30     Rectangular     (120 x 120)    0 (Hole Size)
+
+ASSIGNING       : Pad     Rectangular     (120 x 120)    SOL MSK
+Flash Method    : D30     Rectangular     (120 x 120)    0 (Hole Size)
+
+ASSIGNING       : Pad     Rectangular     (120 x 120)           
+Flash Method    : D30     Rectangular     (120 x 120)    0 (Hole Size)
+
+ASSIGNING       : Fill                    (132 x 75)            
+FILL 1        : D31     Rectangular     (25 x 25)          0 (Hole Size)
+FILL 2        : D24     Circular        (62 x 62)          0 (Hole Size)
+
+ASSIGNING       : Fill                    (75 x 57)             
+FILL 1        : D31     Rectangular     (25 x 25)          0 (Hole Size)
+
+ASSIGNING       : Fill                    (190 x 265)           
+FILL 1        : D30     Rectangular     (120 x 120)        0 (Hole Size)
+
+ASSIGNING       : Fill                    (250 x 605)           
+FILL 1        : D30     Rectangular     (120 x 120)        0 (Hole Size)
+FILL 2        : D23     Circular        (200 x 200)        0 (Hole Size)
+
+ASSIGNING       : Fill                    (250 x 450)           
+FILL 1        : D30     Rectangular     (120 x 120)        0 (Hole Size)
+FILL 2        : D23     Circular        (200 x 200)        0 (Hole Size)
+
+ASSIGNING       : Fill                    (250 x 375)           
+FILL 1        : D30     Rectangular     (120 x 120)        0 (Hole Size)
+FILL 2        : D23     Circular        (200 x 200)        0 (Hole Size)
+
+ASSIGNING       : Fill                    (375 x 250)           
+FILL 1        : D30     Rectangular     (120 x 120)        0 (Hole Size)
+FILL 2        : D23     Circular        (200 x 200)        0 (Hole Size)
+
+ASSIGNING       : Fill                    (230 x 525)           
+FILL 1        : D30     Rectangular     (120 x 120)        0 (Hole Size)
+

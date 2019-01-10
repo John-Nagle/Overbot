@@ -1,0 +1,6 @@
+#
+#	Test watchdog file
+#
+#	Starts a client and server, so they can talk
+ID=testclient ~/sandbox/gc/src/qnx/support/watchdog/tests/watchdogtest
+ID=testserver ~/sandbox/gc/src/qnx/support/watchdog/tests/watchdogtest -s

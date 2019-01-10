@@ -1,0 +1,5 @@
+#	Start file to test dummy speed server
+#	Start dummy speed server
+NODE=gcrear1 ID=SPEED PRI=17 on -f gcrear1 /net/fox/home/nagle/sandbox/gc/src/qnx/control/speed/x86/o-g/speed_g -v -s 
+#	Start dummy server to allow remote connection to it
+NODE=gcrear1 ID=SPEEDTEST PRI=17 on -f gcrear1 /net/fox/home/nagle/sandbox/gc/src/qnx/support/remotemsgserver/x86/o-g/remotemsgserver_g SPEED

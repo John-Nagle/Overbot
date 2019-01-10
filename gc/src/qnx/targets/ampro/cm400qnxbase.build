@@ -1,0 +1,71 @@
+#
+# The build file for qnx RTP booting on a PC
+#
+[virtual=x86,bios +compress] boot = {
+	# Reserve 64k of video memory to handle multiple video cards 
+	startup-bios -s64k
+
+	# PATH is the *safe* path for executables (confstr(_CS_PATH...))
+	# LD_LIBRARY_PATH is the *safe* path for libraries (confstr(_CS_LIBPATH))
+	#    i.e. This is the path searched for libs in setuid/setgid executables.
+	PATH=/proc/boot:/bin:/usr/bin LD_LIBRARY_PATH=/proc/boot:/lib:/usr/lib:/lib/dll procnto
+}
+
+[+script] startup-script = {
+    display_msg Test QNX system for Team Overbot Ampro 400 with flash memory - August, 2003
+	# To save memory make everyone use the libc in the boot image!
+	# For speed (less symbolic lookups) we point to libc.so.2 instead of libc.so
+	procmgr_symlink ../../proc/boot/libc.so.2 /usr/lib/ldqnx.so.2
+
+	# Default user programs to priorty 10, other scheduler (pri=10o)
+	# Tell "diskboot" this is a hard disk boot (-b1)
+	# Tell "diskboot" to not use DMA on IDE drives (-D0)
+	# Start 4 text consoles buy passing "-n4" to "devc-con" (-o)
+	# By adding "-e" linux ext2 filesystem will be mounted as well.
+	#	Mount with no access time update, because this machine has flash disk.
+	[pri=10o] PATH=/proc/boot diskboot -o "devb-eide,blk noatime" -b1 -D0 -odevc-con,-n4
+}
+
+# Include the current "libc.so". It will be created as a real file using
+# it's internal "SONAME", with "libc.so" being a symlink to it. The symlink
+# will point to the last "libc.so.*" so if an earlier libc is needed
+# (e.g. libc.so.1) add it before the this line.
+libc.so
+
+# Include all tie files for the default filesystems
+libcam.so
+io-blk.so
+cam-disk.so
+fs-qnx4.so
+fs-dos.so
+fs-ext2.so
+cam-cdrom.so
+fs-cd.so
+
+# These programs only need to be run once from the boot image.
+# "data=uip" will waste less memory as the ram from the boot
+# image will be used directly without making a copy of the data
+# (i.e. as the default "data=cpy" does). When they have been
+# run once, they will be unlinked from /proc/boot.
+[data=uip]
+seedres
+pci-bios
+devb-eide
+devb-amd
+devb-aha2
+devb-aha4
+devb-aha7
+devb-aha8
+devb-ncr8
+diskboot
+slogger
+fesh
+devc-con
+
+# These files will be unlinked after the system has started
+# to release the memory back to the system. They are only
+# needed during boot. If needed later on, they will be loaded
+# from the boot device.
+unlink_list={
+/proc/boot/devb-*
+}

@@ -1,0 +1,6 @@
+- hook up n sonars
+- test with different transducer
+- act as server
+- set up man page
+- take in -d /dev/ser? as argument
+

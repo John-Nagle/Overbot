@@ -1,0 +1,3 @@
+ctrl alt - up/down/pgup/down in pterm
+
+make VARIANTLIST=g to make only for debug

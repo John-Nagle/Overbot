@@ -1,0 +1,525 @@
+24 DEC 2004 	JN
+
+First viewable maps from LIDAR data.  Not too bad.
+
+Issues:
+	1.	The data from the tilt head test has scan lines too far apart.
+		We can tell the map program to accept this, but this just
+		results in rows of cells with gaps. Do we want to be able
+		to fill big triangles? We might miss a pothole.
+	
+	2.	We're not seeing enough red.  Areas of clutter aren't
+		showing up red.  They're showing up grey.  Unclear why.
+		
+	3.	Need to think about how to handle
+		singleton points that don't form part of a good triangle.
+		While they can't make a cell "good", they can definitely
+		make it "bad". In particular, a vertical post creates
+		this situation.
+		
+	4.	Flat areas more than 2m from the scanner show up 
+		yellow, rather than green.  Even with a 5cm threshold.
+		That's an out and out bug somewhere.  The data is good,
+		as we can tell from the 3D images in Blender.
+		
+	5.	Need to revise the way log files are generated. Scanning
+		the entire million cell map for changes is far too slow.
+		
+	6.	Need to correct for time jitter in tilt angle. This is really
+		throwing off the values obtained during tilt.
+		
+1 JAN 2005
+
+First maps from combined GPSINS/LIDAR data.
+
+Issues:
+	1.	Data has small gaps in green areas, because there's one sample
+		every 20cm exactly, leading to aliasing errors.
+		
+	2.	Is +Z up or down in GPS XYZ data?  Decide and make everything
+		do it that way.
+		
+	3.	Need real pose interpolation; the present code isn't interpolating
+		orientation.
+		
+6 JAN 2005
+
+	Vertical surfaces aren't being marked as red.
+	This is because, as we approach them at 20cm/scan line and
+	a 1:10 beam slope, the Z value only changes by 2cm per
+	move.  So it looks flat.  Because the vertical surface
+	occludes something behind it, there's a grey area
+	after the green area, but there's no red boundary. This
+	would lead us to want to explore that area, which is no good.
+	And, in any case, obvious obstacles must be marked as red.
+	
+	Possible approaches to fixing this come in two flavors:
+	ones based strictly on interpreting two lines at a time, and
+	ones based on accumulating data over more scans.
+
+	If scanner pose information were perfect, this would be easy
+	enough. We'd just look at the Z range observed.  Actually,
+	accumulating the average and variance of Z is probably a
+	good first step.
+	
+	Z variance, though, is only meaningful if the data points are
+	in some sense comparable in error. If, say, we're stopped
+	and looking at the same data point over and over, we'll get a
+	zero variance, but that's no guarantee of flatness.
+	
+	No. Tried setting threshold to 2cm, and the big flat obstacle
+	still isn't recognized.  Something is broken; it's not the algorithm.
+	
+9 JAN 2005
+
+ 	Big, flat obstacle still not looking right. 
+ 	
+ 	Installed waypoint handling.  Appears to work.
+ 	NOTE: Needs faster waypoint lookup, or overhead with a real RDDF
+ 	file will be too high.
+	
+3 FEB 2005
+
+	Integrated with OpenSteer. Testing with move server and dummy SPEED/GPSINS servers.
+	
+	1.	OpenSteer is very sensitive to the input value of "startspeed".  If it is zero, nothing
+		happens.  If forced to 5, there's movement, but 90 degrees from the desired  course.
+		
+	2.	Sometimes, "steer" generates a curvature value of "nan".
+	
+	3.	Configured turn raidius is smaller than the vehicle can achieve.
+	
+	4.	No matter what we do, OpenSteer drives straight north.
+	
+11 FEB 2005
+
+   OpenSteer sort of working, but not well enough for the real world.
+   
+   We can't drive slow. If we don't drive as fast as OpenSteer wants,
+   it won't turn enough.  
+
+   OpenSteer actuallly works as a simulator. At the end of a simulation
+   step, the "curvature" is extracted as the desired steering command.
+   Then, at the beginning of each step, we have to force the simulator
+   into synch with the real world. OpenSteer does not, as delivered,
+   do this, even though the "steer" command hast to do it.
+   
+   The "state" of the system is this, we think.
+   
+        Vec3 _lastForward;
+        Vec3 _lastPosition;
+        Vec3 _smoothedPosition;
+        float _smoothedCurvature;
+        Vec3 _smoothedAcceleration;
+        
+   _lastForward and _lastPosition are now being set to the incoming position
+   and direction. That works. 
+   
+   "_smoothedPosition" doesn't actually affect steering;
+   it's used to detect going in circles.
+   
+   "_smoothedCurvature" should be OK.  
+   "_smoothedAcceleration" should be OK even if _lastPosition is updated on each step.
+        
+ There's a vast amount of code in OpenSteer that has no value for us. We'd really
+ like to get rid of the simulation annotation, and demo mode code.  The end
+ result would be a much smaller and cleaner system.
+ 
+ 18 MAR 2005
+ 
+ First obstacle avoidance tests in simulation.
+ 
+ Problems:
+ 
+ 1. 	Overrunning the goal point. The move server still has a canned 0.25g deceleration. It's time to make
+ real decel calculations work and control real braking in the speed and move servers.
+ 
+ 2.		Bogus goal points off the path after overrun of goal point.
+ 
+ 3.		Excessive wedge growth rate for obstacle detection may prevent steering around obstacles.
+ 
+ 21 MAR 2005
+ 
+ Fixed bogus goal points.  Currently able to run the simulated course. 
+ 
+ But if we
+ put in obstacles in the long fast section, the program runs too slow and we get
+ a move server timeout.
+ 
+ 22 MAR 2005
+ 
+ Fixed timing, but it's tight. The wedge test eats up all the time.
+ 
+ Problems:
+ 
+ 1.		Haven't fixed overrunning the goal point. Recheck this.
+ 
+ 2.		Steering too close to obstacles; can get stuck.
+ 
+ 3.		When approaching an obstacle at high speed, need to decide which way to turn and start
+ 		doing it early, even if we can't turn enough yet to clear the obstacle.
+ 		
+ 24 MAR 2005
+ 
+ Paul Upchurch is writing better wedge tests, ones which measure closeness to
+ obstacles. This should help.
+ 
+ Map is not being updated properly for vertical surfaces.  This looked like an algorithm
+ problem, but dumping the elevations as the cells are updated never shows any big
+ values for the big vertical obstacle in the 10 m/s simulated test file. So there's something
+ broken. The algorithm for detecting vertical surfaces isn't that good, but it should work
+ fine on the perfect simulated test data, and it doesn't.
+ 
+ Do NOT check in current map code. Needs work because of above problem.
+
+ 14 APR 2005
+
+ Obstacle avoidance works in simulation, but goes too close to obstacles.
+ Will be fixed by fine-tuning chosen path based on "shoulder" info.
+
+ Need signed area check for triangles, to avoid problems of negative
+ area when going into turns.
+
+ Formula for signed area of a triangle, from mathworld.wolfram.com/TriangleArea.html
+
+	area = (0.5)*(-x2*y1 + x3*y1 + x1*y2 - x3*y2 - x1*y3 +x2*y3)
+	
+15 APR 2005
+
+What MUST be done before demo:
+
+1. Trim LIDAR data on inside of turns.
+2. Gaze management must work - pull in when needed, "nod"	[DONE]
+3. Reset "ancient" value at 15 secs, and advance on "nod" or fault.	
+3. Find move server timeout.	[DONE] (but not fixed)
+4. Offset from obstacles.
+5. Turn on "impassable" support.
+6. Auto Restart.	[DONE]
+7. Initial LIDAR sweep at startup.	[DONE]
+8. Fill area to front bumper at startup.
+
+16 APR 2005
+
+Struggling with MOVE SERVER TIMEOUT problems.
+
+- MAP is taking 0.026 secs in the worst case, when the shoulder test is running and many paths
+	are being examined. That's OK, and definitely not enough to cause a timeout. We have 100ms
+	available. That time includes calling the GPS, speed, and move servers.  This is in dummy mode,
+	but none of those should take that long. Yet the speed server times out, at 125ms? Where is
+	the time going?
+	
+- This is a repeatable problem in simuation mode, as long as we set 'extra shoulder width' to 2
+	instead of 0, tripling the load on the obstacle test. It occurs when obstacle avoidance has
+	to examine multiple paths. (This is sometimes happening in tight turns with no obstacles,
+	which is a bug, but not the real problem here.)
+	
+-	Sending watchdog output to /dev/null does not affect the problem, so it's not that
+	disk I/O is the bottleneck.
+	
+-	Increasing the buffering for logprintf does not affect the problem.
+
+-	The sequence of events is as follows:
+
+	Timed loop calls "code" in dodriving every 100ms. 
+		MAP calls GPSINS to get a fix. That's non-blocking except for a short critical section.
+		MAP calls dodriving, the main Newsteer cycle. Worst case time is 0.023 s.
+		MAP calls MOVE with a move command.
+			MOVE calls SPEED with a speed command
+			SPEED replies to MOVE (but continues to do the speed command)
+			MOVE replies to MAP
+		MAP's time for this entire cycle, measured worst case, is 0.024 s. 
+		
+	Finally, insight. Here's what's happening:
+	
+		Driving is a timed loop, executed every 100ms, regardless of how long the loop takes.
+		The computation time can vary, from near zero to at least 25ms.  The "move" message
+		is sent at the end of the cycle. So, if one cycle is fast, and the next takes 25ms longer
+		than the first, the delay between successive messages to MOVE will be 125ms, which
+		causes a timeout condition.
+		
+		Jitter, not load, is causing the problem.
+		
+		This is non-trivial to fix, and will require the move server to cope with more jitter
+		in its input timing, and fix it for the speed server.  The speed server must maintain
+		consistent timing, or the hardware stall timer will trip and shut everything down.
+		But it's fixable.
+		
+20 APR 2005
+
+	Tested in yard. Hit trash can.
+	Here's why:
+	
+		Wide test wedge hit boundary before obstacle. Arc was shortened.
+		So we went through the first adjustGoalPoint without invoking obstacle avoidance.
+		We do detect the obstacle in the final call to adjustGoalPoint, and slow down,
+		but don't avoid.
+		
+		Then we stop, rescan, and stamp the initial rectangle as green. Then we
+		run over the trash can.
+		
+		Needed fixes:
+			- draw proper rectangle at startup only, not on every rescan.
+
+28 MAY 2005
+
+	"Improvement" and "centering" are working.  
+
+	The current steering algorithm is as follows:
+
+		First, find the optimal point on the centerline to which we would
+		like to be heading, and compute an arc to it that clears the boundaries.
+		If this is not possible, try to compute the "best" arc to the centerline
+		that can be achieved at the current position and speed.
+
+		Then test that arc against obstacles.  If there are no obstacle impingments
+		for the ideal curvature, it is used.  If there's an impingement on either side,
+		obstacle avoidance is entered.
+
+		Obstacle avoidance attempts to find a clear arc slightly wider than the
+		vehicle, and as long as possible.  Known obstacles and boundaries stop
+		the arc, but unknown areas do not, in this phase.  Search starts at the
+		the ideal curvature and works outward in both directions to the limits of
+		turning acheivable at the current speed.
+
+		There's a metric for evaluating paths.  Long paths are better, and paths
+		closer to the current steering direction are better.
+
+		If search is unsuccessful, arcs outside the limits allowed at the current
+		speed are tested.  Speed is reduced drastically if this is done, to increase
+		the turning options.
+
+		Once obstacle avoidance has found a narrow path that works, an attempt is
+		made to "improve" it by making small adjustments to the curvature.  The
+		objective is to increase the clearance on either side of the path (we
+		call the this the "path shoulder") or, if obstacles impinge on both sides,
+		to center the path between the obstacle.
+
+		There's a metric for evaluating improvements.  When there's an obstacle
+		on either side, the nearer obstacle is weighted more heavily.
+
+		The last step is a safety recheck, which checks that sufficient clearance
+		is available on either side of the vehicle for the proposed speed.  The
+		safety recheck may cut down the speed or the distance to advance.
+
+		That's what we have now.
+
+	The limitations of this approach:
+
+		This is a purely reactive planner, working against a map.
+		Reactive planners can deal with one obstruction well, and can
+		handle multiple goals, but faced with multiple obstructions in	
+		a tight spot, do not do well.
+
+		A situation we don't handle well is the DARPA trashcan test - an 
+		obstacle in the middle of the road.  We can avoid the trash can, but
+		slipping between the trash can and the side of the road is hard.
+		Typically, we turn just enough to clear the trash can, end up
+		angled towards the side of the road, and can't fit through the
+		opening while angled.  (Need picture)
+
+	What we really need:
+
+		Splined paths.  
+
+		We need another degree of freedom in path planning, so that we
+		can adjust the final direction of the vehicle.  A spline with
+		four control points would seem to be ideal.  One control point
+		is at the vehicle position, the next is in the forward direction
+		from the vehicle position to force the correct tangent, and the
+		final one is at the goal point. An additional point midway between
+		the forward point and the goal point can be moved transverse to the direction of
+		travel to adjust the final direction.
+
+		Another advantage of splines is that we can properly take into
+		account the time required for the vehicle to change course.  
+		Splines are minimum-acceleration curves, which is exactly
+		what we need.
+
+		This may take more programming than we have time for.  But it's
+		the right answer.
+
+		What would we actually want to do with splines?
+		-- If a path is stopped by a boundary, the path must be made
+		   tangent to the boundary at that point.
+		-- Unclear what to do if stopped by non-boundary
+
+		What would we actually have to do to implement spline-based paths?
+		-- Revise curved wedge handling for obstacles to accept splines
+		   for both obstacles and boundaries.
+		-- Use splines mostly in path improvement.
+
+		-- Implement specialized spline object
+		   -- 4 control points
+		   -- First two set by position and direction
+		   -- Last two set by length and ending direction.
+		   -- Spline must not curve tighter than min turning
+		      radius
+		   -- Spline curvature change rate must be bounded
+		      by turning speed of steering system.
+		   -- Need point-along-spline function
+		   -- Need perpendicular at point along spline.
+		   
+		   
+3 JUN 2005
+
+	Still implementing spline based paths. 
+	First step is to make everything use CurvedPath objects and the
+	code that divides paths into quadralaterals.
+	Known problems with this:
+		-- Shortening a path changes it slightly. Paths that once passed can now fail.
+			This is serious, because we try paths, shorten them to the first hit, and
+			then expect the shortened path to work. Sometimes it doesn't. Bad.
+		-- The boundary-hit test with trapezoids reports wrong impingement points.
+			It reports corners of the test quadralaterals, not points on the boundary.
+		-- Offset values seem correct, but don't always match those from the old code.
+		
+9 JUN 2005
+
+	The low-level machinery works for curved paths, but the high level algorithm
+	isn't written yet.
+	
+	The approach:
+	
+		1.	Try curved paths exhaustively, as before. The curved paths start as arcs, but
+			if they hit a boundary during the boundary test, they are changed
+			to splines tangent to the boundary at the hit point.
+			
+		2.	Pick the path from step 1 with the longest distance to an obstruction
+			or boundary.
+		
+		3.	Improve the path, moving the path sideways at its endpoint.
+			Pick the best path within +- the adjustment range.
+			
+		4.	Run the safety test, and use that to compute the desired speed.
+		
+19 JUN 2005
+
+	All the curved path machinery is in, but it doesn't work reliably.
+	The curved paths start, but then, as the path gets close to the
+	destination and the turns get tight, the turns sometimes reverse.
+	
+	There seem to be two reasons for this. One is that the old compensation for
+	steering delay makes some turns look impossible. The other is that the
+	wrong turning radius of the S-curve is sometimes used, presumably because
+	we ask for it one move distance out.
+	
+23 JUN 2005
+
+	New path machinery working much better.
+	Known bugs:
+		1.	Pathimprove is still turned off. 
+		2.	An end point of an S-curve outside the boundaries has been seen. This is wrong.
+			See logba19.txt:
+			15:43:58 [MAP] Boundary hit at 11.98m (-91.74, 75.93) - path end direction becomes (-1.00, 0.00)
+			15:43:58 [MAP] Boundary hit - path end position changed from (-87.50, 79.39) to (-88.75, 76.69)
+			***WRONG*** sidedness issue - new path end position miscomputed. 
+			***Boundary hit point is correct, but new path end is wrong. It is outside the boundaries.
+			Unclear how this happened. The new point is always supposed to be closer to the start
+			than the old point, because distanceToImpingement is linear distance.
+			But the algoirthm there could be better.  When the path direction is changed due to
+			an endpoint hit, the position should be changed to a vehicle halfwidth (plus a safety margin)
+			inside the boundary.  
+		3.	Toggling between two equally good paths. In tight spots, sometimes the path search doesn't
+			find the correct path because the exhaustive search didn't hit it square on.  Consider doing
+			path improvement during search when there's a center hit that's marginal and might be
+			cleared by improvement.
+
+24 JUN 2005
+
+	Still having troubles with path machinery, but making progress. New graphics are helping.
+	1.		Pathimprove is still turned off.
+	2.		Made change suggested in 2) above. This works well. It also addresses 4) above.
+	3.		After readjusting the position of the end of the path to clear the boundary, sometimes
+			it is falsely reported as NOT clearing the boundary. Something is wrong in
+			the offset calculation for boundary impingements. Already found two errors in the
+			code. This is checkable against the logs, and it's definitely wrong. Impingement points
+			seem to be correct, but distance from centerline is wrong. And so is the value used
+			to decide whether the boundary hit is in the center or not.
+			
+			Once we get this fixed, path selection will get much better.
+			
+30 JUN 2005
+
+	Fixed bugs above.
+	Pathimprove still needs work in centering in narrow spaces, but otherwise is doing
+	adequately.  May want to improve some paths by shortening them to achieve
+	better clearances.
+	Pathimprove considers the SUM of the impingements, and it probably needs to
+	consider the MAX.
+	
+	Ran the 2004 course in simulation. Works fine up to waypoint 154-156, where three
+	waypoints overlap, which isn't handled properly.
+	
+2 JUL 2005
+	
+	Pathimprove centering fixed somewhat. Still does badly in narrow sections where the
+	vehicle is right next to the boundary and the worst point is at the vehicle location.
+	In such a case, all valid paths look equally good, or bad, to path improvement.
+	Need an approach to fix this.
+	
+	Also, the path that goes directly to the ideal goal is being rejected because it's too
+	close to the boundary in the first pass. Then it's not considered as an option in path
+	search. So nothing pulls the path back to the centerline in narrow sections. Not good.
+	
+9 JUL 2005
+
+	Field test in yard today. Backing up sort of works, although dumb.
+	
+	Bugs found in field test:
+	-- Waypoint fetch fails for closed course
+	-- Waypoint fetch fails to get previous waypoint in reverse.
+	-- Need speed limit for reverse.
+	-- Throttle up still too slow.
+	-- Reverse distance is dumb, but set to 3m, not 5m, by default.
+	
+	Pathimprove narrow problem finally solved, but solution has side effects.
+	Added check to avoid testing shoulders in steering dwell region, because
+	no path change will affect that.
+	
+	Derating shoulder obstacles further away is bogus, because the impingement
+	test reports the deepest impingement for shoulders, not the furthest. This
+	causes path improvement to pick paths that slowly approach the boundary,
+	rather than going away from it.
+	Need to add both low and high limits for shoulder search of waypoints,
+	or shorten path for path improvement test.
+	
+21 JUL 2005
+
+	Driving better, although still tends to stop and rescan too much in tight spots.
+	
+	Implemented "marginal terrain evaluation". Untested. Notes:
+		-- Need to implement plane from 3 points.
+		-- Need to implement dump of new impingement info.
+		-- Need to figure out how to get this info into maplog.
+		-- How to test?
+		-- Concern: test quad for determining roughness plane is determined by basewidth.
+			So the final check of a path, where shoulderwidth is 0 and the base width is the
+			whole thing, causes a more restrictive test than the planning tests. This probably
+			just slows down driving in tough spots, but check.
+			
+			
+			
+
+ 
+ 
+23 JUL 2005
+
+	Testing today found several bugs.
+	1. Backing up is broken.  False off-course reports.  Believed to be a waypoint 
+	selection problem. Rewrote that part.
+	2. Slipping back needed a separate fault code, not "brake fault", which made
+	it unrecoverable.  Fixed, needs test.
+	3. Test of first bad spot waypoint file from 2004 GC resulted in a long backup,
+	almost a hundred meters. Unclear why; can't see it in the code.
+	4. Same test resulted in bad centering in narrow waypoint segments.  The
+	"find ideal goal point" mechanism is rejecting everything when the path is
+	very narrow.  Again, a major bug.
+
+17 OCT 2005
+
+	Drives reasonably well.  Used at 2005 Grand Challenge NQE.
+	Known problems:
+	
+		-- Backs up too much.
+		-- Scheme for using short paths during path improvement is of marginal value.
+		-- Gaze management had to be dumbed down to get it to work at all.

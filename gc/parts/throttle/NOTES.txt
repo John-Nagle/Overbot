@@ -1,0 +1,10 @@
+Tachometer board design notes
+John Nagle
+July, 2004.
+
+
+Tachometer resistor values.
+
+For tachometer 1 (engine), use 5000RPM = 5V
+For tachometer 2 (radar speedo), use 50000 counts/sec = 5V.
+

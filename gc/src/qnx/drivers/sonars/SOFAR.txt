@@ -1,0 +1,140 @@
+Team Overbot Sonar Setup Description
+Khian Hao Lim 11/4/03
+---------------------------------------------
+
+Required setup:
+We wish to have about 16 sonars surrounding the vehicle. They should preferably be able to reach 3m
+or more with fair amount of accuracy. The transducers and drive electronics that go with the 
+transducers need to be water proof because they will be exposed. We hoped to be able to buy such units
+off the shelf or make do with as little work. For accuracy, the transducers 
+should be piezoelectric instead of electrostatic.
+
+---------------------------------------------
+Interface to system: 
+See sensorclientserver.sxd in gc/system/milestones/sensorclientserver.sxd (open office document)
+by checking out a copy from cvs.
+There will be a SONAR server in software that talks to the sonar devices and constantly polls them for 
+their distances. The SONAR server will respond to client queries and reply them with a suitable msg.
+
+--------------------------------------------
+Basic notes about sonars (see http://www.rdrop.com/~cary/html/ultrasonic.html)
+
+- They are hard to interface with a pc. Their transducers (Polaroid, Murata, Prowave)
+are widely available but they need drive electronics to go with them.
+
+- The transducers are characterised by their range, their grades (whether instrument/environment grade),
+their fan out angle
+
+- The transducers are either electrostatic or piezoelectric (better accuracy).
+
+- The transducers normally need some high voltage (20 - 100V) to send out ultrasonic waves at 40khz. 
+Thats drive electronics are basically there to push voltage up to that level for the transducers to work.
+
+-------------------------------------------
+Possible sonars and electronics
+
+Polaroid (http://www.senscomp.com/ultrasonic.htm)
+- They make popular transducers commonly used in robotics. They have both electrostatic and waterproof
+transducers. They make drive electronics (6500 module, http://www.senscomp.com/pdf/6500series.pdf)
+that work with the transducers. But the 6500 module itself takes a ttl signal to work with. And we need one 6500
+module with each transducer. So if we want to use them, we will need some electronics to drive this ttl signal. 
+A prof at michigan makes an electronics board that talks to 6500 modules and is controllable by
+serial Rs232 (http://www-personal.engin.umich.edu/~johannb/eeruf.htm, $1000, can talk to 16 transducer+6500 module at one time). 
+Problem is the only suitable piezoelectric automotive grade
+transducer is the 9000 series which cannot talk to the 6500 module right now.
+However, it is still possible to use it with the 6500 module and requries changing some of the 
+electronic components on the 6500 module (http://www.acroname.com/robotics/info/ideas/9000/9000.html)
+
+Devantech (http://www.robot-electronics.co.uk/shop/Ultrasonic_Ranger_SRF082001.htm)
+- They make a 3cm - 6m sonar module that has drive electronics with it. The drive electronics
+talk I2C to other devices. I2C is a master slave bus digital protocol commonly used in video encoder,
+eeprom circuits. We have RS232I2C converters that enable qnx computer to talk I2C. 
+The transducers (www.prowave.com.tw ) are piezoelectric but problem is, they are not waterproof, 
+The guys in UK that make the devantech units are waiting for water proof parts to arrive 
+from www.prowave.com.tw to test 
+(might be a few weeks from now). 
+
+Automotive backup sensors:
+- http://www.parking-sensor.com.tw and other automotive reversing sensors
+- They normally go into beepers or visual displays of distances and are not meant for interfacing 
+with pcs. We would need custom electronics to interface them
+www.singtech.com.sg provided documentations, block diagrams, schematics for it
+
+Murata:
+- makes very good stick on or recessed versions of transducers commonly used in automotive backup
+sensors. No drive electronics found for them.
+http://search.murata.co.jp/Ceramy/owa/CATALOG.showcatalog?sHinnmTmp=MA40E7R&sLang=2&sNhnm=MA40E7R&sHnTyp=NEW
+We would like to have parts MA40E7R and MA40E7S.
+The distributors don't carry any of those and they will be made custom and shipped from
+japan in 10 weeks.
+
+Found MA40E7S-1 (http://www.murata.com/catalog/p19/el0560.pdf)
+on revsersing sensor from http://www.gdpsensor.com/technical.asp.
+Will try to integrate with SRF08 unit
+
+Massasonic:
+http://www.massa.com/datasheets/m500095.html
+Way too expensive and hard to mount correctly because of shape
+
+-----------------------------------------------
+Things we tried or are trying:
+
+- talked to www.singtech.com.sg and got documentations for their parking sensors (stopped trying; too
+much work)
+
+- currently: I have set up a SRF08 unit, with RS232toI2C convertor to talk to a qnx box. Still writing software
+to get it to retrieve distance. See /gc/src/qnx/drivers/sonars in cvs. We hope to get the water proof
+version of the transducers. The one that is on the devantech unit is 400SR160 from www.prowave.com.tw.
+The one that is the waterproof is the 400ET180 (transmitter) with 400ER180 (receiver)
+or 400ET250 with 400ER250. The problem is that they have different sizes and do not fit on the 
+devantech circuit board. Another problem is we will need to water proof the whole circuit board.
+We are waiting for the parking sensors to come. We will take out the transducers to try with the 
+devantech circuit board to see if that works.
+
+- possible alternative 1: see whether the 600 series electrostatic with the 6500 module is really worst
+than the devantech piezo electric. Then we can get the board from Umich.
+
+- possible alternative 2: get some 9000 series piezoelectric automotive grade transducers and
+try to hack a 6500 module to get them to work. If that works, then we can get the board from umich.
+
+---------------------------------------------
+Things we have:
+
+- 2 devantech SRF08 units (http://www.robot-electronics.co.uk/shop/Ultrasonic_Ranger_SRF082001.htm)
+
+- RS232toI2C converter (http://www.emicros.com/i2c232.htm) (also available from http://www.mcc-us.com/)
+
+- cables (i2c) and 1 I2C distribution board (http://www.mcc-us.com/)
+
+- basic software that talks to SRF08 unit from qnx box
+
+------------------------------------------
+Things ordered and arriving soon:
+
+- 1 Polaroid 6500 module and 2 environment grade (600 series electrostatic) transducers
+
+- parking sensor wireless 25 feet (http://www.12voltshop.com/proddetail.asp?prodid=SV1201&cat=21&path=1,21)
+
+- parking sensor 4 sensor stick ons (http://www.gdpsensor.com/sensorproducts.asp)
+
+-------------------------------------------
+Things we hope to get, don't have yet:
+
+- water proof transducers from www.prowave.com.tw
+( email j.kao@pro-wave.com.tw 5 400ET250, 400ER250)
+
+- 9000 series (problem is they only sell in packs of 10's but they aren't that expensive)
+
+
+--------------------------------------------------
+Packaging for use:
+
+- shrink wrap sonar controllers in box, foam to compress it, label with
+  slave address
+- label box with sonar controller numbers within
+
+--------------------------------------------------
+Test:
+
+- test that vehicle electrical noise did not create false signals for sonars
+(insulate?)

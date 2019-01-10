@@ -1,0 +1,15 @@
+---------------------------------
+Special RJ Connector Wire
+
+Red - V+
+Black - Gnd
+White - clock
+Green - Data
+
+
+------------------------
+Sonar Pinout
+
+o 		o 		o 		o 		o  led on the right
+^		^		^		^		^
+Gnd  NC	CL		Data	V+

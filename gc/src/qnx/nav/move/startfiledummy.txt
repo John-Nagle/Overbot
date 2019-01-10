@@ -1,0 +1,5 @@
+#	Move server test.
+#	Dummy, just runs verbose mode move server, doing very little.
+PRI=15 ID=MOVE ~/sandbox/gc/src/qnx/nav/move/x86/o-g/move_g -v
+PRI=15 ID=TESTMOVE ~/sandbox/gc/src/qnx/support/remotemsgserver/x86/o-g/remotemsgserver_g MOVE
+PRI=15 ID=SPEED ~/sandbox/gc/src/qnx/control/speed/x86/o-g/speed_g -v -s

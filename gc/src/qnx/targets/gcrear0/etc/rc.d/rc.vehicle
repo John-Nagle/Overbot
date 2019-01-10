@@ -1,0 +1,9 @@
+#!/bin/sh
+#
+#	Overbot vehicle startup
+#
+#	Runs the vehicle software as user "vehicle"
+waitfor /net
+#	Start vehicle script, detached, as user vehicle
+cd ~vehicle; on -d -s -u vehicle /bin/sh bin/startvehicle.sh 
+

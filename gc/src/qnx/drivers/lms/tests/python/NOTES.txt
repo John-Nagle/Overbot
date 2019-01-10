@@ -1,0 +1,9 @@
+Windows program path:
+
+sys.path.append('D:\\projects\\overbot\\gc\\src\\qnx\\drivers\\lms\\tests\\python')
+
+Data file:
+
+Looking at ceiling, old, bad format:
+
+'D:\\projects\\overbot\\logs\\lidarscans20041208_212937.log'

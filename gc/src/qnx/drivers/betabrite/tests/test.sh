@@ -1,0 +1,1 @@
+~/sandbox/gc/src/qnx/support/watchdog/watchdog -v startfile.txt

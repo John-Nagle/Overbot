@@ -1,0 +1,115 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>devfw-ohci</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 1.1.0  (Win32)">
+	<META NAME="CREATED" CONTENT="20031104;22222137">
+	<META NAME="CHANGED" CONTENT="20031104;22433704">
+	<META NAME="DESCRIPTION" CONTENT="Graphics driver for S3 Savage chipsets">
+	<STYLE>
+	<!--
+		TD P { color: #000000 }
+		H1 { color: #000000 }
+		P { color: #000000 }
+		H2 { color: #000000 }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-US" TEXT="#000000" BGCOLOR="#ffffff" DIR="LTR">
+<CENTER>
+	<TABLE WIDTH=40% CELLPADDING=2 CELLSPACING=2 STYLE="page-break-before: always">
+		<TR>
+			<TD>
+				<P ALIGN=CENTER><IMG SRC="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/icons/prev.gif" NAME="Graphic1" ALT="[Previous]" ALIGN=BOTTOM WIDTH=27 HEIGHT=41 BORDER=0></P>
+			</TD>
+			<TD>
+				<P ALIGN=CENTER><A HREF="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/index.html"><IMG SRC="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/icons/contents.gif" NAME="Graphic2" ALT="[Contents]" ALIGN=BOTTOM WIDTH=47 HEIGHT=41 BORDER=0></A></P>
+			</TD>
+			<TD>
+				<P ALIGN=CENTER><IMG SRC="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/icons/keyword_index.gif" NAME="Graphic3" ALT="[Index]" ALIGN=BOTTOM WIDTH=47 HEIGHT=41 BORDER=0></P>
+			</TD>
+			<TD>
+				<P ALIGN=CENTER><IMG SRC="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/icons/next.gif" NAME="Graphic4" ALT="[Next]" ALIGN=BOTTOM WIDTH=27 HEIGHT=41 BORDER=0></P>
+			</TD>
+		</TR>
+	</TABLE>
+</CENTER>
+<HR>
+<H1><A NAME="id1"></A><TT>gpsins</TT></H1>
+<P><I>The GPSINS server process that talks to the Novatel GPS
+Receiver, Xbow AHRS (Attitude Heading Reference System) and Xbow FOG
+(Fiber Optic Gyro). It also responds to request msgs and responds
+with a reply that encapsulates all the estimated position, heading
+and attitude state.</I></P>
+<H2><A NAME="id3"></A>Syntax:</H2>
+<HR>
+<P><FONT SIZE=2><FONT FACE="Courier New, Courier, mono">gpsins
+[<I>option</I>[,<I>option</I> ...]] ... &amp;</FONT></FONT> 
+</P>
+<H2><A NAME="id5"></A>Runs on:</H2>
+<P>X86, QNX Neutrino, needs watchdog timer to be running for
+communication to happen</P>
+<H2><A NAME="id7"></A>Options:</H2>
+<P> -h | --help                      Displays help</P>
+<P>-V | --version                  Display version</P>
+<P>-v | --verbose                  Sets verbose flag</P>
+<P>-a | --ahrs serial_dev       Serial device to use for ahrs</P>
+<P>-A | --ahrsLog logFile 	 Filename to log ahrs</P>
+<P>-g | --gps  serial_dev       Serial device to use for gps</P>
+<P>-G | --gpsLog logFile	Filename to log gps</P>
+<P>-f | --fog  serial_dev        Serial device to use for fog gyro</P>
+<P>-F | --fogLog logFile	Filename to log fog</P>
+<P> -d | --dt time                 Length of time step</P>
+<P>-K | --kfLog logFile	Filename to log Kalman Filter</P>
+<H2><A NAME="id9"></A>Description:</H2>
+<P>The GPSINS server talks to the GPS receiver, AHRS, FOG units and
+the METER server. It combines all the sensor data in Kalman Filters
+to estimate the state of the vehicle. The internal position update
+runs at the same rate as the AHRS (60Hz). There are a few threads
+running within. One that polls on the devices on the serial port. One
+that waits for requests and responds with the data.</P>
+<H2><A NAME="id91"></A>Usage:</H2>
+<P><I>gpsins -h</I></P>
+<P>or <I>gpsins --help </I>
+</P>
+<P>will both display help</P>
+<P><I>gpsins -v -g /dev/ser2 -f /dev/ser1</I></P>
+<P>Will set the verbose flag, use /dev/ser2 as the gps serial device
+and use /dev/ser1 as the fog device, leaving the ahrs device to be
+its internal default</P>
+<H2>Messages:</H2>
+<P>Refer to /gc/src/qnx/common/include/gpsins_messaging.h for the
+communication interface</P>
+<P>Refer to /gc/src/qnx/nav/gpsins_gui/src/myTimerActivate.c on an
+example of a client that talks to the GPSINS server</P>
+<H2><A NAME="id16"></A>Files:</H2>
+<P>gpsins</P>
+<H2>Bugs:</H2>
+<P>Still testing for them.</P>
+<H2>Author:</H2>
+<P>Khian Hao Lim/ Team Overbot / <A HREF="khianhao.net@khianhao.net">khianhao.net@khianhao.net</A></P>
+<P>&nbsp;</P>
+<HR>
+<CENTER>
+	<TABLE WIDTH=40% CELLPADDING=2 CELLSPACING=2>
+		<TR>
+			<TD>
+				<P ALIGN=CENTER><IMG SRC="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/icons/prev.gif" NAME="Graphic6" ALT="[Previous]" ALIGN=BOTTOM WIDTH=27 HEIGHT=41 BORDER=0></P>
+			</TD>
+			<TD>
+				<P ALIGN=CENTER><A HREF="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/index.html"><IMG SRC="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/icons/contents.gif" NAME="Graphic7" ALT="[Contents]" ALIGN=BOTTOM WIDTH=47 HEIGHT=41 BORDER=0></A></P>
+			</TD>
+			<TD>
+				<P ALIGN=CENTER><IMG SRC="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/icons/keyword_index.gif" NAME="Graphic8" ALT="[Index]" ALIGN=BOTTOM WIDTH=47 HEIGHT=41 BORDER=0></P>
+			</TD>
+			<TD>
+				<P ALIGN=CENTER><IMG SRC="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/icons/next.gif" NAME="Graphic9" ALT="[Next]" ALIGN=BOTTOM WIDTH=27 HEIGHT=41 BORDER=0></P>
+			</TD>
+		</TR>
+	</TABLE>
+</CENTER>
+<P><BR><BR>
+</P>
+</BODY>
+</HTML>

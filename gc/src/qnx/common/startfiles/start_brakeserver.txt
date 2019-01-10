@@ -1,0 +1,18 @@
+#
+#  File: start_brakeserver.txt
+#
+#  Usage:
+#      cd ~/sandbox/gc/src/qnx/common/startfile
+#      ../bin/watchdog start_brakeserver.txt
+#
+#  Description:
+#      Watchdog startup file for Brake Server testing.
+#
+#  Written by:
+#      Celia Oakley
+#      Team Overbot
+#      December, 2003
+#
+###############################################################################
+ID=MVPC pterm ../bin/mvpserver -m
+ID=BRAKE pterm ../bin/brakeserver_g -m

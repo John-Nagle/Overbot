@@ -1,0 +1,27 @@
+#!/bin/sh
+#	rc.local for Nova Pentium 4 machines
+#	J. Nagle		Team Overbot		October, 2003
+# For gcrear2 - the slave machine.
+#
+#	Mount Intel Ethernet device not known to QNX 6.2.1.
+mount -T io-net -o busvendor=0x8086,busdevice=0x103a /lib/dll/devn-speedo.so 
+#	Restart TCP/IP networking so that new Ethernet driver is attached to it.
+netmanager -r all
+
+#	Start QNX native networking.
+#	with fix suggested by Xiaodan Tang
+mount -T io-net -o "ticksize=200,sstimer=0x00140014" /lib/dll/npm-qnet.so
+
+# start sshd
+/usr/sbin/sshd
+
+# start inetd, which allows remote photon access
+/usr/sbin/inetd
+
+# start reboot server
+/usr/local/sbin/rebootserver_nova8890 &
+
+#	Start FireWire driver
+/usr/local/sbin/devfw-ohci > /dev/null &
+
+ 

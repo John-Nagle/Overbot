@@ -1,0 +1,6 @@
+#	Start file to test dummy speed server
+#	Start dummy speed server
+ID=SPEED PRI=14 ~/sandbox/gc/src/qnx/control/speed/x86/o-g/speed_g -v  -s
+# ID=SPEED PRI=14 pterm gdb /home/nagle/sandbox/gc/src/qnx/control/speed/x86/o-g/speed_g -v  
+#	Start dummy server to allow remote connection to it
+ ID=SPEEDTEST PRI=13  ~/sandbox/gc/src/qnx/support/remotemsgserver/x86/o-g/remotemsgserver_g SPEED

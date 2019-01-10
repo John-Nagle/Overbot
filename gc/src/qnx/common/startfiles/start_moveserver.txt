@@ -1,0 +1,18 @@
+#
+#  File: start_moveserver.txt
+#
+#  Usage:
+#      cd ~/sandbox/gc/src/qnx/common/startfile
+#      ../bin/watchdog start_moveserver.txt
+#
+#  Description:
+#      Watchdog startup file for Move Server 
+#
+#  Written by:
+#      Achut Reddy
+#      Team Overbot
+#      January, 2004
+#
+###############################################################################
+ID=MOVE pterm -Z ../bin/move_g -v
+

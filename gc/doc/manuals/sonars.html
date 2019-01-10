@@ -1,0 +1,104 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>sonar</TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 1.1.0  (Win32)">
+	<META NAME="CREATED" CONTENT="20031104;22222137">
+	<META NAME="CHANGED" CONTENT="20040208;3220879">
+	<META NAME="DESCRIPTION" CONTENT="Graphics driver for S3 Savage chipsets">
+	<STYLE>
+	<!--
+		TD P { color: #000000 }
+		H1 { color: #000000 }
+		P { color: #000000 }
+		H2 { color: #000000 }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-US" TEXT="#000000" BGCOLOR="#ffffff" DIR="LTR">
+<CENTER>
+	<TABLE WIDTH=40% CELLPADDING=2 CELLSPACING=2 STYLE="page-break-before: always">
+		<TR>
+			<TD>
+				<P ALIGN=CENTER><IMG SRC="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/icons/prev.gif" NAME="Graphic1" ALT="[Previous]" ALIGN=BOTTOM WIDTH=27 HEIGHT=41 BORDER=0></P>
+			</TD>
+			<TD>
+				<P ALIGN=CENTER><A HREF="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/index.html"><IMG SRC="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/icons/contents.gif" NAME="Graphic2" ALT="[Contents]" ALIGN=BOTTOM WIDTH=47 HEIGHT=41 BORDER=0></A></P>
+			</TD>
+			<TD>
+				<P ALIGN=CENTER><IMG SRC="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/icons/keyword_index.gif" NAME="Graphic3" ALT="[Index]" ALIGN=BOTTOM WIDTH=47 HEIGHT=41 BORDER=0></P>
+			</TD>
+			<TD>
+				<P ALIGN=CENTER><IMG SRC="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/icons/next.gif" NAME="Graphic4" ALT="[Next]" ALIGN=BOTTOM WIDTH=27 HEIGHT=41 BORDER=0></P>
+			</TD>
+		</TR>
+	</TABLE>
+</CENTER>
+<HR>
+<H1><TT>sonar</TT></H1>
+<P><I>The SONAR server process that talks to the I2C-to-RS232
+converter that is connected through a distribution board to Devantech
+SRF08 sonars.</I></P>
+<H2><A NAME="id3"></A>Syntax:</H2>
+<HR>
+<P><FONT SIZE=2><FONT FACE="Courier New, Courier, mono">sonar
+[<I>option</I>[,<I>option</I> ...]] ... &amp;</FONT></FONT> 
+</P>
+<H2><A NAME="id5"></A>Runs on:</H2>
+<P>X86, QNX Neutrino, needs watchdog timer to be running for
+communication to happen</P>
+<H2><A NAME="id7"></A>Options:</H2>
+<P>-h | --help Displays help</P>
+<P>-V | --version Display version</P>
+<P>-v | --verbose Sets verbose flag</P>
+<P>-d | --dev serial_dev Serial device to use to talk to the
+I2C-to-RS232 converter</P>
+<H2><A NAME="id9"></A>Description:</H2>
+<P>The sonar server talks to each of the SRF08 units through a
+I2C-to-RS232 converter and a I2C distribution board. It repeatedly
+asks each SRF08 to send out a ping and then asks it for the distance
+estimation. It cycle through 6 of the SRF08 in about 1 second and so
+the update rate of the distance estimation is about 1hz. Refer to
+Note 43 on the Overbot website for more elaboration.</P>
+<H2><A NAME="id91"></A>Usage:</H2>
+<P><I>sonar -h</I></P>
+<P>or sonar<I> --help </I>
+</P>
+<P>will both display help</P>
+<P><I>sonar -d /dev/ser2</I></P>
+<P>Will use /dev/ser2 to talk to the I2C-to-RS232 converter.</P>
+<H2>Messages:</H2>
+<P>Refer to /gc/src/qnx/common/include/sonar_messaging.h for the
+communication interface. However, the sonar server has not been
+implemented as a server yet. So the sonar_messaging.h file is still
+tentative.</P>
+<H2><A NAME="id16"></A>Files:</H2>
+<P>sonars</P>
+<H2>Bugs:</H2>
+<P>Author:</P>
+<P>Khian Hao Lim/ Team Overbot / <A HREF="khianhao.net@khianhao.net">khianhao.net@khianhao.net</A></P>
+<P>&nbsp;</P>
+<HR>
+<CENTER>
+	<TABLE WIDTH=40% CELLPADDING=2 CELLSPACING=2>
+		<TR>
+			<TD>
+				<P ALIGN=CENTER><IMG SRC="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/icons/prev.gif" NAME="Graphic6" ALT="[Previous]" ALIGN=BOTTOM WIDTH=27 HEIGHT=41 BORDER=0></P>
+			</TD>
+			<TD>
+				<P ALIGN=CENTER><A HREF="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/index.html"><IMG SRC="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/icons/contents.gif" NAME="Graphic7" ALT="[Contents]" ALIGN=BOTTOM WIDTH=47 HEIGHT=41 BORDER=0></A></P>
+			</TD>
+			<TD>
+				<P ALIGN=CENTER><IMG SRC="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/icons/keyword_index.gif" NAME="Graphic8" ALT="[Index]" ALIGN=BOTTOM WIDTH=47 HEIGHT=41 BORDER=0></P>
+			</TD>
+			<TD>
+				<P ALIGN=CENTER><IMG SRC="file:///F:/Documents and Settings/khianhao/Local Settings/Temporary Internet Files/Content.IE5/Z2CZ314D/icons/next.gif" NAME="Graphic9" ALT="[Next]" ALIGN=BOTTOM WIDTH=27 HEIGHT=41 BORDER=0></P>
+			</TD>
+		</TR>
+	</TABLE>
+</CENTER>
+<P><BR><BR>
+</P>
+</BODY>
+</HTML>

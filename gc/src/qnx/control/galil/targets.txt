@@ -1,0 +1,229 @@
+'''' PROGRAM: Targets - change target positions on-the-fly
+'
+' Usage:
+'     - initialize with SH, DP (BL, FL, TL optional)
+'     - run/execute the program/thread
+'     - set the target profile variables and TargNew=0
+'     - set TargOn=1
+'     - issue new target profile variables
+'     - set TargNew=1
+'     - when done, set TargOn=0
+'
+' Description:
+'     Allows on-the-fly trajectory profile generation
+'     on the Galil motion controllers.
+'
+'     Need to start from Servo Here mode (SH), with encoder
+'     position defined (DP).
+'
+'     Need to set the following variables:
+'       * used in TargPar only 
+'         (can be changed while TargOn=0 or TargNew=0)
+'           TargPosn - new target position
+'           TargVel  - new target max velocity
+'           TargVeps - new target velocity roughly zero band
+'           TargAcc  - new target acceleration
+'           TargDec  - new target deceleration
+'       * used elsewhere
+'           TargOn   - 1=follow targets, 0=ignore targets
+'           TargNew  - 1=new target, 0=no new target
+'
+'     Some of the tricky programming issues:
+'       - programming language doesn't use std op precedence
+'         (need lots of parens)
+'       - CD takes relative argument, get rounding errors
+'         (if get to Xlast, correct so RPX is/returns Xlast)
+'
+'     To test without motor attached, comment out CM command.
+'
+' Written by:
+'     Celia Oakley
+'     Team Overbot
+'     January 2004
+'
+#Targets
+' initialize variables
+TargOn=0
+' execute loop forever
+#WHILE1
+IF TargOn
+Tdel=0.008
+DT 3
+CM
+JS #TargIni
+JS #TargPar
+JS #CDNext
+#WHILEON
+JP #WHILEN, TargOn=0
+IF Xnow<>Xlast
+CD @RND[Xnow-Xlast]
+' Xcd=Xcd+@RND[Xnow-Xlast]
+ELSE
+CD @RND[Xlast-_RP]
+ENDIF
+Tnow=Tnow+Tdel
+IF TargNew
+TargNew=0
+JS #TargPar
+ENDIF
+JS #CDNext
+WC
+JP #WHILEON
+#WHILEN
+ELSE
+DT0
+CD0
+WT 2*1000/_TM
+ENDIF
+JP #WHILE1
+EN
+'''' SUBROUTINE: TargIni - Initialize target profile numbers
+' only initialize when TargOn set to 1
+#TargIni
+Tinit=0
+Tnow=Tinit
+Xinit=_TP
+Xnow=Xinit
+' Xcd=0
+Vinit=_TV
+Vnow=Vinit
+EN
+'''' SUBROUTINE: TargPar - Compute target profile numbers
+' initialize time and position variables
+#TargPar
+Tinit=Tnow
+' Tnow=Tnow
+Xinit=Xnow
+' Xnow=Xnow
+Xfinal=TargPosn
+' compute direction of motion
+IF (Xfinal>=Xinit)
+Dir=1
+ELSE
+Dir=-1
+ENDIF
+' initialize default velocity and acceleration variables
+Vinit=Vnow
+' Vnow=Vnow
+Vmax=@ABS[TargVel]*Dir
+Ainit=@ABS[TargAcc]*Dir
+Afinal=-@ABS[TargDec]*Dir
+IF @ABS[Vinit]<@ABS[TargVeps]
+' no initial motion, therefore no under/overshoot
+JS #NoShoot
+ELSE
+IF (Vinit*Dir)<0
+' moving in opposite direction to that desired,
+' need to undershoot
+Ashoot=-Afinal
+JS #Shoot
+ELSE
+IF @ABS[Vinit]>=@ABS[Vmax]
+' moving in same direction to that desired, faster than max vel
+' will need to get to this position in time
+X2=Xfinal+(1/2*Vmax*(Vmax/Afinal))
+' will need to travel this far to get down to Vmax
+Tfast=(Vmax-Vinit)/Afinal+Tinit
+Xfast=1/2*Afinal*(Tfast-Tinit)*(Tfast-Tinit)+(Vinit*(Tfast-Tinit))+Xinit
+IF ((Xfinal>=Xinit)&(Xfast>X2))|((Xfinal<Xinit)&(Xfast<X2))
+' moving in same direction to that desired, faster than max vel,
+' need to overshoot
+Dir=-Dir
+Vmax=@ABS[TargVel]*Dir
+Ainit=@ABS[TargAcc]*Dir
+Afinal=-@ABS[TargDec]*Dir
+Ashoot=-Afinal
+JS #Shoot
+ELSE
+' moving in same direction to that desired, faster than max vel,
+' no need to overshoot
+JS #NoShoot
+ENDIF
+ELSE
+' moving in same direction to that desired, slower than max vel
+' need to make sure full decel would stop before Xfinal
+Tslow=-Vmax/Afinal+Tinit
+Xslow=1/2*Afinal*(Tslow-Tinit)*(Tslow-Tinit)+(Vinit*(Tslow-Tinit))+Xinit
+IF ((Xfinal>=Xinit)&(Xslow>Xfinal))|((Xfinal<Xinit)&(Xslow<Xfinal))
+' moving in same direction to that desired, slower than max vel,
+' need to overshoot
+Dir=-Dir
+Vmax=@ABS[TargVel]*Dir
+Ainit=@ABS[TargAcc]*Dir
+Afinal=-@ABS[TargDec]*Dir
+Ashoot=-Afinal
+JS #Shoot
+ELSE
+' moving in same direction to that desired, slower than max vel,
+' no need to overshoot
+JS #NoShoot
+ENDIF
+ENDIF
+ENDIF
+ENDIF
+' compute parameters to determine IF reach max velocity and otherwise
+T1=(Vmax-Vshoot)/Ainit+Tshoot
+X1=1/2*Ainit*(T1-Tshoot)*(T1-Tshoot)+(Vshoot*(T1-Tshoot))+Xshoot
+X2=Xfinal+(1/2*Vmax*(Vmax/Afinal))
+T2=(X2-X1)/Vmax+T1
+Tfinal=-Vmax/Afinal+T2
+Vmid=Vmax
+' check if don't reach max velocity
+IF ((T1-Tshoot)+(Tfinal-T2))>(Tfinal-Tshoot)
+Amid=1/2*Ainit-(1/2*Ainit*(Ainit/Afinal))
+Bmid=(1-(Ainit/Afinal))*Vshoot
+Cmid=Xshoot-Xfinal-(1/2*Vshoot*(Vshoot/Afinal))
+Ymid1=(-Bmid+@SQR[Bmid*Bmid-(4*Amid*Cmid)])/(2*Amid)
+Ymid2=(-Bmid-@SQR[Bmid*Bmid-(4*Amid*Cmid)])/(2*Amid)
+Ymid=max(Ymid1,Ymid2)
+Tmid=Ymid+Tshoot
+Xmid=1/2*Ainit*(Tmid-Tshoot)*(Tmid-Tshoot)+(Vshoot*(Tmid-Tshoot))+Xshoot
+Tfinal=-(Ainit*(Tmid-Tshoot)+Vshoot)/Afinal+Tmid
+Vmid=-Afinal*(Tfinal-Tmid)
+T1=Tmid
+T2=Tmid
+X1=Xmid
+X2=Xmid
+ENDIF
+EN
+'''' SUBROUTINE: CDNext - Compute next CD value
+#CDNext
+Xlast=Xnow
+Tnext=Tnow+Tdel
+IF (Tnext<Tshoot)
+Xnow=1/2*Ashoot*(Tnext-Tinit)*(Tnext-Tinit)+(Vinit*(Tnext-Tinit))+Xinit
+Vnow=Ashoot*(Tnext-Tinit)+Vinit
+ELSE
+IF (Tnext<T1)
+Xnow=1/2*Ainit*(Tnext-Tshoot)*(Tnext-Tshoot)
+Xnow=Xnow+(Vshoot*(Tnext-Tshoot))+Xshoot
+Vnow=Ainit*(Tnext-Tshoot)+Vshoot
+ELSE
+IF (Tnext<T2)
+Xnow=Vmax*(Tnext-T1)+X1
+Vnow=Vmax
+ELSE
+IF (Tnext<Tfinal)
+Xnow=1/2*Afinal*(Tnext-T2)*(Tnext-T2)+(Vmid*(Tnext-T2))+X2
+Vnow=Afinal*(Tnext-T2)
+ELSE
+Xnow=Xfinal
+Vnow=0
+ENDIF
+ENDIF
+ENDIF
+ENDIF
+EN
+'''' SUBROUTINE: Shoot - Need to undershoot or overshoot
+#Shoot
+Tshoot=-Vinit/Ashoot+Tinit
+Xshoot=1/2*Ashoot*(Tshoot-Tinit)*(Tshoot-Tinit)
+Xshoot=Xshoot+(Vinit*(Tshoot-Tinit))+Xinit
+Vshoot=0
+EN
+%''' SUBROUTINE: NoShoot - No need to undershoot or overshoot
+#NoShoot
+Tshoot=Tinit
+Xshoot=Xinit
+Vshoot=Vinit
+EN

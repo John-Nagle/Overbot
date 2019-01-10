@@ -1,0 +1,1 @@
+MYOBJ = manualdrive.o joystickinput.o	 moveoutput.o manualdrivingcontrolmode.o automodes.o -lgccontrol_g -lgccomm_g -lgcui_g -lsocket -lusbhid_g -lhiddi

@@ -1,0 +1,46 @@
+#khianhao 11/17/03 Team Overbot
+#The start file that we will finally use on the vehicle
+#watchdog timer will start in gcrear1 and start off all programs
+#based on single line diagram of data paths description
+
+#the binaries can potentially be pointing at the remote directories through /net/
+
+#on gcchassis
+ID=WPCHASSIS NODE=gcchassis /home/vehicle/bin/watchpuppy
+ID=MVPC NODE=gcchassis /home/vehicle/bin/mvpserver
+ID=DIR NODE=gcchassis /home/vehicle/bin/dirserver
+ID=SPEED NODE=gcchassis /home/vehicle/bin/speedserver
+ID=GEAR NODE=gcchassis /home/vehicle/bin/gearserver
+ID=METER NODE=gcchassis /home/vehicle/bin/meterserver
+ID=WATER NODE=gcchassis /home/vehicle/bin/waterserver
+ID=TEMPERATURE NODE=gcchassis /home/vehicle/bin/temperatureserver
+
+#on gctop
+ID=WPGCTOP NODE=gctop /home/vehicle/bin/watchpuppy
+ID=SIGN NODE=gctop /home/vehicle/bin/signserver
+ID=TILT NODE=gctop /home/vehicle/bin/tiltserver
+ID=LMS NODE=gctop /home/vehicle/bin/lmsserver
+
+#on gcrear0
+ID=WPGCREAR0 NODE=gcrear0 /home/vehicle/bin/watchpuppy
+ID=RADAR NODE=gcrear0 /home/vehicle/bin/radarserver
+ID=ROAD NODE=gcrear0 /home/vehicle/bin/roadserver
+ID=MOVE NODE=gcrear0 /home/vehicle/bin/moveserver
+ID=FMAP NODE=gcrear0 /home/vehicle/bin/fmapserver
+ID=BACKSEAT NODE=gcrear0 /home/vehicle/bin/backseatserver
+ID=OPENSTEER NODE=gcrear0 /home/vehicle/bin/opensteerserver
+
+#on gcrear1
+ID=WPGCREAR1 NODE=gcrear1 /home/vehicle/bin/watchpuppy
+ID=GPSINS NODE=gcrear1 /home/vehicle/bin/gpsinsserver
+ID=SONAR NODE=gcrear1 /home/vehicle/bin/sonarserver
+ID=WAYPT NODE=gcrear1 /home/vehicle/bin/wayptserver
+ID=MAP NODE=gcrear1 /home/vehicle/bin/mapserver
+
+
+#/** PhEDIT attribute block
+#-11:16777215
+#0:1169:default:-3:-3:0
+#1169:1337:default:-3:-3:4
+#1337:1612:default:-3:-3:0
+#**  PhEDIT attribute block ends (-0000167)**/

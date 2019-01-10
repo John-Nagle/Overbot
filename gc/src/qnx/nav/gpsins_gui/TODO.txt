@@ -1,0 +1,11 @@
+- map of local area?
+- fix and improve artHorizon
+
+- fix naming convention
+- figure out how to use with ide
+- figure out how to link in library
+
+- work on driving gui ( need to talk to mvp server)
+
+document:
+- add DEBUG=-g to advanced make options for debugging

@@ -1,0 +1,25 @@
+From: "Jerry Kaneko" <jerry@newmarksystems.com>
+To: "John Nagle" <nagle@animats.com>
+References: <000501c35626$da653e40$0401000a@Jerry> <3F27F479.5030001@animats.com>
+Subject: Re: Cable Route Dwg and Motor Info
+Date: Wed, 30 Jul 2003 11:42:16 -0700
+M
+
+I've attached the spec sheet on the connectors used on the motor.  The motor
+uses part numbers:  MS3112E14-19P and MS3112E14-8P.
+
+You'll want to get the MS3112F14-19S for the sensor cable and MS3112F14-8S
+for the motor connector.
+
+I'm also looking at different ways to incorporate a hard stop for the
+system.
+
+The maximum continuous current for the motor is 1.8 Amps.
+The maximum peak current is 5.5 Amps.
+The gear ratio used is 72:1.
+
+
+
+Jerry
+
+

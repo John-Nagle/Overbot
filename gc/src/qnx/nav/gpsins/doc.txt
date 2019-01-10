@@ -1,0 +1,144 @@
+password: B9n8n7.
+password: foo00baz
+password: FC74cC
+
+--------------------------------------------------
+Omnistar:
+Customer service and service activation: 
+Mike Huff 1800-338 9178, 1888-omnistar
+
+Person dealing with omnistar for darpa grand challenge:
+John Pointon jpointon@omnistar.com 1888-omnistar, 1866-764 6866
+
+Good technical assistance at Novatel:
+Clint Waller: cwaller@novatel.com
+Clint, (403) 295 4504
+
+to activate omnistar in the beginning
+assignomni user 1551489 1200 (sets up freq and baud) (in novatel manual)
+rtksource omnistar (activate hp)
+psrdiffsource omnistar (activate vb)
+saveconfig
+
+typical vals:
+see typical_omnistar_log.txt
+
+to check that we using omnistar,
+log gpgga (the number after the 'W' says what service we are using,
+2 for omnistar vb, 5 for omnistar hp
+
+log bestxyz
+should give OMNISTAR_HP
+
+stddev ~= 0.18m, 0.15m, 0.215m
+log omnistat vb word = 0082
+log omnistat hp word1 = 0000
+log omnistat hp word2 = 0000 (0001 means not converged)
+
+default settings on propak lb receiver, saved config
+- com 57600
+- log omnistatb ontime 1
+- log bestposb ontime 1
+
+initial (after reset)
+- 10 sec from start to get single
+- 30 sec from start to get omnistar vb
+- 20 min to get omnistar hp
+--------------------------------------------------
+Xbow:
+Liason between Khian Hao and Xbow:
+Darren Liccardo dliccardo@xbow.com
+
+Person approving sponsor,
+Dean Johnson, Vice President, Inertial System djohnson@xbow.com
+
+--------------------------------------------------
+Water sensors:
+
+$5.95
+http://www.hobbytron.net/vmk108.html
+part: V-MK108 
+
+http://www.controlsupply.com/itm00660.htm
+$129
+--------------------------------------------------
+Sonars:
+
+arrow (helpful associate that is asking distributor) no stock 1-877-237-8621
+avnet no stock : 1800 332 8638
+tti: 1800 225 5884
+
+
+murata-usa : 1770 436 1300
+product manager tet kurihara: 1 765 236 1953
+recht assoc (650) 964 6321
+
+don winmark application engineering:
+bought 600 environmental grade transducers oem x 2
+734-953-4783
+
+$89
+i2c to serial convertor:
+http://www.emicros.com/i2c232.htm
+
+$52 each
+sonars distributor
+http://www.acroname.com/robotics/parts/R145-SRF08.html
+
+sonar maker:
+http://www.robot-electronics.co.uk/shop/Ultrasonic_Ranger_SRF082001.htm
+
+taiwanese transducer supplier:
+?
+
+i2c cables:
+http://www.mcc-us.com/catalog.htm
+part: CAB4-5pk, $37.50
+
+i2c distribution (7 distribution):
+http://www.mcc-us.com/catalog.htm
+part: IP-202, $59.95 
+--------------------------------------------------
+explanation about coordinates:
+
+Hi guys,
+
+There exist 3 commonly used coordinate systems dealing with earth coordinates
+when used on anything larger than a few miles. They arise because of different approximations of the earth (people have used things like Geodetic, Ellipsoids, Flat.... models to approximate earth)
+
+They are:
+- LLH which is longitude, latitude, height.
+- ECEF which is earth centered earth flat
+- NED which is a right handed coordinate system and stands for North East Down
+
+There are more crude approximations of meters per deg latitude or meters per deg longitude but those are not very good approximations.
+
+The book
+Global Positioning Systems, Inertial Navigation, and Integration
+by Mohinder S. Grewal
+
+has a reasonable treatment of these coordinates.. as do some other books on Navigation
+
+I have been using some Navigation related code in GPSINS integration.The header file is
+common/include/Nav.h
+and it is implemented in 
+common/lib/gcmath/Nav.cc
+
+so including Nav.h and linking to libgcmath.a would make these functions available (see gpsins Makefile in nav/gpsins for required changes to LIBS var)
+
+The bottom line is we will use the first waypoint as the origin of our internal coordinate system. Tim will make this available through a msg request. Our internal coordinate system will basically be NED coordinate which is in most sense XYZ except its a right handed coordinate system.
+
+The functions ECEF2llh and llh2ECEF gives one-to-one conversions between
+ECEF coordinate and LLh coordinates, while ECEF_dist gives the NED dist
+between 2 points. LLH_dist gives NED distance between 2 LLH's.
+
+So for example for Tim, say he got Long and Lat and Height (make it 0 for height) and wants to give out the coordinate as our coordinate system. He
+would keep the origin as LLHZero and for a given LLHnew coordinate of another point and wants the NED of that point, he would do:
+
+NEDdist = LLH_dist(LLHzero, LLHnew, LLHzero[0], LLHzero[1])
+
+where NEDdist is a 3 element vector of North, East, Down
+LLHzero is a 3 element vector of Lat, Lon Height
+
+
+

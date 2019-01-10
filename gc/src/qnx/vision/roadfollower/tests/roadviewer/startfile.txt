@@ -1,0 +1,4 @@
+#	Startfile for roadviewer test
+# ID=ROAD NODE=gcrear0 pterm /net/fox/home/nagle/sandbox/gc/src/qnx/vision/roadfollower/roadfollowerserver -v  /net/gcrear0/dev/fw0/dc-unibrain-fire-i_400_1.2-40 /tmp/vision -r 1
+ID=ROAD /home/nagle/sandbox/gc/src/qnx/vision/roadfollower/roadfollowerserver -v  /dev/fw0/dc-unibrain-fire-i_400_1.2-40 /tmp/vision -r 1
+ID=ROADVIEWER /home/nagle/sandbox/gc/src/qnx/vision/roadfollower/tests/roadviewer/src/gcc_ntox86/viewer -v 

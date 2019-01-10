@@ -1,0 +1,107 @@
+references:
+
+gps blocking: gyro drifts and errors, magnetic compasses errors, odometer errors
+sensitivity analysis
+- 1.575 cannot bend around solid objects
+  (see land vehicle navigation using gps)
+refer to for discussion on rf signal propagation and multipath:
+- http://www.novatel.com/Documents/Bulletins/apn008.pdf
+
+
+general kalman filter, gps, ins stuff
+- http://citeseer.nj.nec.com/harvey98development.html
+- qnx.com references
+- autopilot
+- numerical textbook
+- grewal (chap 8 kf engineering)
+- jarrell (chap 4, kf impl issues)
+- more references on kf impl and numerical issues??
+- papers in saved dir
+
+to look up:
+- dead reckoning + fog gyro + odometry + magnet
+- vehicle + estimation + inertial + gps
+
+--------------------------------------------------
+implementation issues:
+- baud rate on qnx
+- commons on gps receiver (provide link and reference)
+- omnistar reacqution timing
+- firmware not available until later
+
+--------------------------------------------------
+pictures:
+
+- propak lb alone, on test, on vehicle
+
+--------------------------------------------------
+gps testing:
+
+cold start timings:
+- single, vb, hp
+
+reacquisition timings:
+- single, vb, hp
+
+
+WAAS: 
+stddev 1.2 - 2.4
+stddev 0.8 - 2.4
+height 2.6 - 5
+
+omnistar vb:
+stddev 0.8m
+?
+?
+
+omnistar hp:
+stddev 0.15m
+?
+?
+
+- plot response time
+
+- static and dynamic for all below
+- plot gps receiver no waas
+- plot gps receiver waas
+- plot gps receiver omni
+
+--------------------------------------------------------------
+content:
+
+- using vision to get motion values into filter
+- first thing: plot all data from hardware
+  over time, over distance,
+  gps data with omnistar, gps
+  ahrs
+- see whether fog gyro need scaling, calibration etc
+- tracking bias of yaw gyro bias, odometry scaling, yaw gyro scaling
+- varying weights on sensors in different situtations (eg gyros when vehicle is still
+  or steering is straight, odometer when speed is low)
+- test fog gyro vs normal gyro in yaw
+- test fog gyro in drift/bias
+- use gps as truth, run filter using just ahrs, encoder, magnet
+- navigation error sources (refer to farrell chap 1)
+- pictures of set up, mount on testing and on real vehicle(possible?)
+- numerical improvements
+- kalman filtering issues
+- where there is outage, power lines?
+- running times
+- performance comparison (measured field)
+- performance in dynamic vs static environments
+- physical mounting
+- operating system issues (interface, running times, communication issues, watchdog timer restart)
+- restartability
+- testing methology (trolley, outages), sensor visualization
+- tech specs of units, model, names of units
+- states for kf, including of data from fog
+- equations for kf (from autopilot, from blue book
+- running time and complexity analysis with and without optimizations (2 libraries: one optmized, one not)
+- code snippets and implementations of optimization
+
+possible optimizatoins:
+- monitoring filter health
+- positive definite symmetric (grewal, the gps, inertial.., blue book)
+- LU decomposition used to solve Ax = B
+- recipe from c++
+- transformations can be optimized too

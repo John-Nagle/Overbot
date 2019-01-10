@@ -1,0 +1,12 @@
+README for speed server
+
+This is the SPEED server. It controls brake, throttle, transmission, engine
+start/run,  E-stop, and steering, in response to messages from
+the MOVE server.
+
+TODO:
+
+	Dummy VORAD values are bad.  Y values seem inverted.	[DONE]
+	Reset speed I-term when shifting, to avoid excessive accel on hills.
+	Update state machine on timeouts when not in RUN mode, so pausing will work.
+	

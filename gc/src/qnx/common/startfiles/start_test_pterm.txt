@@ -1,0 +1,20 @@
+#khianhao 11/17/03 Team Overbot
+#this startfile tests to make sure that we can spawn processes on different nodes
+#and hide them behind pterms
+#this is good for debugging the menu handlers that Celia has written that needs pterm
+#the pterms will pop up on photon on the monitors of each of the machines
+
+#program run on bobcat, pterm pop up on bobcat
+ID=testserver NODE=bobcat on -f bobcat /usr/photon/bin/pterm /home/vehicle/bin/watchdogtest -s 
+
+#program run on gcrear1, pterm pop up on gcrear1
+ID=testclient_gcrear1 NODE=gcrear1 on -f gcrear1 /usr/photon/bin/pterm /home/vehicle/bin/watchdogtest
+
+#program running on gcrear0, pterm pop up on gcrear0
+ID=testclient_gcrear0 NODE=gcrear0 on -f gcrear0 /usr/photon/bin/pterm /home/vehicle/bin/watchdogtest
+
+#program run on fox, pterm pop up on watchdog machine
+ID=testclient_fox NODE=fox pterm on -f fox /home/khianhao/watchdogtest
+
+#program running on bobcat, pterm pop up on bobcat
+ID=testclient_bobcat NODE=bobcat on -f bobcat /usr/photon/bin/pterm /home/vehicle/bin/watchdogtest

@@ -1,0 +1,70 @@
+''''PROGRAM: SIMPCM - Simple Contour Mode Test
+' need to input Xfinal, Vmax, Ainit
+' and SH
+' and DP 0
+' and Xinit=_TP
+#SIMPCM
+' safeguards
+BL -120000
+FL 120000
+TL 5
+' initialize variables
+Tinit=0
+Tnow=Tinit
+Xinit=0
+Xnow=Xinit
+Xfinal=80000
+Dir=(Xfinal-Xinit)/@ABS[Xfinal-Xinit]
+Vinit=0
+Vmax=8000*Dir
+Ainit=8000*Dir
+Afinal=Ainit
+PATdel=0.008
+PAXfinal=Xinit
+' initialize contour mode
+DT 3
+CM
+JS #TargPar
+JS #NextCD
+#WHILE
+JP #WHILEN, Tnow>=Tfinal
+JS #SendCD
+Tnow=Tnow+PATdel
+Xnow=PAXfinal
+JS #NextCD
+WC
+JP #WHILE
+#WHILEN
+DT0
+CD0
+EN
+'''' SUBROUTINE: TargPar - Compute target profile numbers
+#TargPar
+T1=Vmax/Ainit
+X1=1/2*Ainit*T1*T1+Xinit
+X2=Xfinal-(0.5*Vmax*(Vmax/Afinal))
+T2=(X2-X1)/Vmax+T1
+Tfinal=T2+(Vmax/Afinal)
+EN
+'''' SUBROUTINE: NextPA - Compute next CD value
+#NextCD
+PAXinit=PAXfinal
+PATfinal=Tnow+PATdel
+IF (PATfinal<T1)
+PAXfinal=(1/2*Ainit*PATfinal*PATfinal)+Xinit
+ELSE
+IF (PATfinal<T2)
+PAXfinal=(Vmax*(PATfinal-T1))+X1
+ELSE
+IF (PATfinal<Tfinal)
+PAXfinal=(-1/2*Afinal*(PATfinal-T2)*(PATfinal-T2))+(Vmax*(PATfinal-T2)+X2)
+ELSE
+PAXfinal=Xfinal
+ENDIF
+ENDIF
+ENDIF
+EN
+'''' SUBROUTINE: SendCD - Send CD command
+#SendCD
+CD PAXfinal-PAXinit
+EN

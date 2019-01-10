@@ -1,0 +1,4 @@
+TODO for watchdog
+
+1. Make environment variables propagate to spawned programs?
+2. 

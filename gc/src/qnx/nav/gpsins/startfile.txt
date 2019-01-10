@@ -1,0 +1,2 @@
+ID=gpsins /home/nagle/sandbox/gc/src/qnx/nav/gpsins/x86/o-g/gpsins_g -a /net/gcrear0/dev/ser2 -g /net/gcrear0/dev/ser3
+ID=gpsins_gui /home/nagle/sandbox/gc/src/qnx/nav/gpsins_gui/src/gcc_ntox86_cpp/gpsins_gui

@@ -1,0 +1,24 @@
+Notes to E-stop
+
+26 JUL 2004	J. Nagle
+
+Removed old E-stop red button wiring.  Replaced
+E-stop wiring with four wires to each button.  A N/C switch
+(red) in each button is connected to the red and black wires
+in the four wire cable, and each red button is connected
+separately to J10.
+
+Each E-stop button also has a N/O switch, connected to the
+green and white wires.  These are paralleled under the hood,
+and wired to the STOP input of the generator.  
+
+So pressing any of the vehicle's red E-stop buttons will trip the
+E-stop and stop the generator engine.
+
+This creates a problem, though. The E-stop system is currently
+powered from the generator, and the brakes do not get fully
+applied before the generator stops. So the E-stop box needs
+backup power.
+
+This will be provided via a pair of diodes, so backup power can
+come from either the vehicle battery or the generator.  

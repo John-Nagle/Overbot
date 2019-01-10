@@ -1,0 +1,42 @@
+#!/bin/sh
+
+# Khian Hao Lim, Team Overbot
+# 11/20/03
+# boot script for the computer running watchdog
+#
+# The script run in gcrear1's /etc/rc.d/rc.local to wait for user input for a while
+# If it receives a relevant value, it will start off as normal mode (no watchdog)
+# If it times out, it will start off as watchdog mode (watchdog run with default script here)
+#
+
+#change this to start_rcmode_v2 or others when necessary
+STARTFILE=/home/vehicle/startfiles/start_rcmode_v1.txt
+
+#the tag of the output
+STARTTIME=`date +%m%d%y_%H%M`
+
+#where watchdog and all program output will be teed to
+WATCHDOGOUTPUT=/home/vehicle/text/watchdog_output.$STARTTIME
+
+start_vehicle_mode() {
+	# change to vehicle user
+	su vehicle -c /home/vehicle/bin/watchdog $STARTFILE | tee $WATCHDOG_OUTPUT
+}
+
+start_boot() {
+	echo "BOOT_VEHICLE SCRIPT: "
+	echo "Press any key to boot normally"
+	if /home/vehicle/bin/getkey 5; then
+		echo "Booting Normally..."
+	else
+		echo "Booting into Vehicle Mode"
+		start_vehicle_mode
+	fi
+}
+
+# main
+start_boot
+	
+
+
+

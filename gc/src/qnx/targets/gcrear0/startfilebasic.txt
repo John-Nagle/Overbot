@@ -1,0 +1,19 @@
+#
+#	Basic startfile.  Doesn't drive the vehicle, but brings up everything that can be read remotely.
+#
+#	Runs on gcrear0
+#
+#	J.	Nagle
+#	Team Overbot
+#	January, 2005
+#
+#	VORAD radar - run, and make accessable for remote GUI programs
+ID=VORAD voradserver /dev/ser1
+ID=RVORAD remotemsgserver VORAD
+
+#	GPSINS - run, and make accessable by remote GUI programs
+ID=GPSINS gpsins -a /dev/ser2 -g /dev/ser3
+ID=RGPSINS remotemsgserver GPSINS
+
+#	Create a waypoint log.
+ID=GPSLOGGER gpsins_logger -d /tmp/logs

@@ -1,0 +1,62 @@
+1) Introduction
+   - team overbot (www.overbot.com) and darpa grand challenge and its status
+   - intro on gps/ins integration, dead reckoning
+
+
+2) AHRS unit
+   - link to specs and doc
+   - picture of mounting
+   - specification (and what it really means in practice)
+   - gyro view running (show art horizon, heading, yaw gyro noise)
+   - traces:
+	- static environment(in picture already)
+	- when moving the unit on table top (accels and yaw)
+	- double integrating acc's for position	
+
+3) gps receiver
+   - link to specs and doc
+   - picture of receiver and antenna
+   - picture of gpsolution
+   - specs
+   - time to cold start and require (single, vb, hp), firmware upgrade
+   - traces: 
+	- positions and sd in static environment (using waas)
+	- positions and sd following circle (using waas)
+	- positions and sd in static environment (using omnistar hp)
+	- positions and sd following circle (using omnistar hp)
+	- response times (single, hp) 
+   - freq bending around 
+   - talk about some of details on app notes on novatel:
+	http://www.novatel.com/Documents/Bulletins/apn008.pdf
+   - 
+
+4) hardware mounting concerns
+   - ahrs away from magnetic sources, neeed to water proof
+   - gps antenna can see sky, antenna water proof
+   - pictures?
+
+5) software implementation concerns
+   - qnx gui designed
+   - kalman filter set up (and references)
+	- equations and references
+   - numerical improvements(from kalman filter engineering)
+	- LU decomposition to solve Ax = B
+	- making covariance matrix symmetric
+   - use of STL
+
+6) Integration into system
+   - circle of uncertainty
+
+6) testing and results
+    - pictures (rubbermaid)
+    - talk about circle and varying with gps truth
+    - plots (steering angle == heading in this case)
+
+7) future improvements
+   - further integration with odometry, steering angle information
+   - use fog gyro for double integration
+   - using roadfollower, maps, odometry, steering angle to do dead reckoning
+   - using inertial data for future state estimation of the vehicle (side slip)
+   - kalman filter health monitoring (and others improvements in grewal book)
+
+8) references

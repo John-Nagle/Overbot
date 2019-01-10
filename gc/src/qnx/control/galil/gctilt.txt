@@ -1,0 +1,262 @@
+'	Tilt head control
+'	John Nagle
+'	Team Overbot
+
+#AUTO
+'	Externally visible variables set by computer over the network.
+'	FAULT is the fault code.  Output
+FAULT=0
+'	READY indicates that the system will respond to goal setting.  Output
+READY=0
+'	AUTO is always on, there is only AUTO mode
+AUTO=1
+'	GOALMIN and GOALMAX are the allowed range for GOAL, Output
+GOALMIN=-90000
+GOALMAX=90000
+'	GOAL is set to set the desired position
+'	Initial position is straight down, "parked".
+GOAL=0
+'	SPEED is desired movement speed. Input 
+SPEED=50000
+'	SPEEDMAX is maximum speed allowed
+'	Speed really won't go much higher than this.
+SPEEDMAX=50000
+'	FLPOS is encoder count at forward limit stop.
+'	Should be outside of GOALMIN..GOALMAX by safe margin
+FLPOS=97000
+
+'	Fix recommended by Galil tech support.
+CW,1
+' Tilt head drive parameters
+'	Operating range
+MAXE=GOALMAX
+MINE=GOALMIN
+'	Motor torque limit
+TL 5
+'	Controller gains and speeds (rather ad-hoc, but tolerable)
+KD 40
+KP 6
+KI 0.1
+DC 25000
+AC 25000
+SP SPEED
+'	System initialization
+'	Home to reverse limit and set encoder.
+'	Reverse limit is looking forwards and upwards.
+'	Home is looking straght down,
+JS #MVHOME
+' Do control loop
+JS #MTILT
+EN
+
+' Tilt control
+' At entry drive must be homed.
+#MTILT
+MTIME=10
+' Set motion limits
+FL MAXE
+' Enable motor
+ER 20000
+' No off-on-error
+OE 0
+SH
+SP SPEED
+PA 0
+AM
+'	Synch. move system
+JS #MVWAIT
+'	Tell host we are ready for commands
+READY=1
+#MLOOP
+'	Take command from variable GOAL
+MVGOAL=GOAL
+'	Take speed from variable SPEED
+TSPEED=SPEED
+'	Limit speed
+IF (TSPEED>SPEEDMAX)
+TSPEED=SPEEDMAX
+ENDIF
+'	Set speed
+SP TSPEED
+'	Do move.
+JS #MVTO
+WT MTIME
+JP #MLOOP
+EN
+
+
+'	Subroutine
+'	Home actuator to idle position (reverse limit) and set encoder.
+'	Rather slow.
+#MVHOME
+HMTRIES=0
+HMTMAX=3000
+OE 0
+'	Disable limits during homing.
+BL -10000000
+FL 10000000
+SH
+'	Start jogging towards limit switch if not already there.
+IF (_LF=0)
+JP #HMDONE1
+ELSE
+JG 10000
+BG
+ENDIF
+#HMLOOP1
+'	If hit limit, done
+IF (_LF=0)
+JP #HMDONE1
+ENDIF
+'	Did homing succeed? Time out
+HMTRIES=HMTRIES+1
+IF (HMTRIES>HMTMAX)
+FAULT=6
+READY=0
+MO
+HX
+ENDIF
+WT 10
+JP #HMLOOP1
+'	Done with forward homing. Stop and clear
+#HMDONE1
+ST
+AM
+SH
+AM
+'	Now home, very slowly, in reverse, until limit switch clears
+HMTRIES=0
+JG -500
+BG
+#HMLOOP2
+'	If hit limit, done
+IF (_LF>0)
+JP #HMDONE2
+ENDIF
+'	Check for hit of reverse limit stop
+IF (_LR=0)
+FAULT=8
+MO
+HX
+ENDIF
+'	Did homing succeed? Time out
+HMTRIES=HMTRIES+1
+IF (HMTRIES>HMTMAX)
+FAULT=7
+READY=0
+MO
+HX
+ENDIF
+WT 10
+JP #HMLOOP2
+#HMDONE2
+'	Homing successful.  Just clear of limit switch
+'	Set encoder to forward limit pos and go to GOALMAX
+'	We should never get near the limit stops again.
+ST
+AM
+DP FLPOS
+AM
+SH
+'	Set limits to be enforced,
+BL GOALMIN
+FL GOALMAX
+PA GOALMAX
+AM
+DBGPOS=4
+EN
+
+
+'
+'	General move support
+'
+'	Supports absolute moves which can be interrupted
+'
+'
+'	#MVTO  --start movement towards MVGOAL
+'
+'	Obeys hardware and software limit stops
+'
+#MVTO
+'	Round to integer encoder count
+TGOAL=@RND[MVGOAL]
+'	Check and obey software limits. Never command move into limit.
+JS #MVLIM
+'	Decide whether a direction reverse and resync is needed.
+IF (((TDIFF>0) & (MVPDIFF<0)) | ((TDIFF<0) & (MVPDIFF>0)))
+'	Don't reverse if the overshoot is small.  Otherwise, small
+'	changes in the destination produce random stalls near the
+'	beginning of motion
+'	Estimate worst case stopping distance
+TSTOPDST=(0.5*_SP)*(_SP/_DC)
+IF ((@ABS[TDIFF]<TSTOPDST) & (@ABS[_TP-MVPPOS] >= TSTOPDST))
+TDIFF=0
+ELSE
+'	We are going to move, and we have to stop the current move first.
+'	When MVWAIT returns, commanded velocity is zero.
+JS #MVWAIT
+'	Must recalc move limits after a wait. MVPPOS may change.
+JS #MVLIM
+ENDIF
+'	Normal case; extend existing IP move
+ENDIF
+'	Move, if necessary
+IF (TDIFF <> 0)
+ERRBG=_BG
+ERRTDIFF = TDIFF
+IP TDIFF
+MVPPOS = MVPPOS+TDIFF
+MVPDIFF = TDIFF
+ENDIF
+EN
+
+'
+'	#MVWAIT  -- wait for move to finish
+'
+'	Must call this once before calling MVTO for the first time
+'	Stops, waits for move to finish, resyncs
+'
+#MVWAIT
+TTIME=TIME
+ST
+AM
+SH
+AM
+MVPDIFF=0
+MVPPOS=_PA
+EN
+
+'
+'	#MVLIM  -- check limits of move
+'
+'	Input: TGOAL
+'	Output: TDIFF
+'	Looks at: MVPPOS, limit info
+'
+'	Check and obey software limits. Never command move into limit.
+#MVLIM
+IF (TGOAL > _FL)
+TGOAL = _FL
+ENDIF
+IF (TGOAL < _BL)
+TGOAL = _BL
+ENDIF
+TDIFF = TGOAL-MVPPOS
+'	Check and obey limit switches.  Never command move into limit.
+IF ((TDIFF > 0) & (_LF1=0))
+TDIFF=0
+ENDIF
+IF ((TDIFF < 0) & (_LR1=0))
+TDIFF=0
+ENDIF
+EN
+
+'
+'	Error handling
+'
+'	Error handling removed.  Better to keep servoloop running.
+'
+
+
+
+

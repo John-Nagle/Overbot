@@ -1,0 +1,19 @@
+#
+#  File: start_steerbywire.txt
+#
+#  Usage:
+#      cd ~/sandbox/gc/src/qnx/common/startfile
+#      ../bin/watchdog start_steerbywire.txt
+#
+#  Description:
+#      Watchdog startup file for Steer-By-Wire functionality.
+#
+#  Written by:
+#      Celia Oakley
+#      Team Overbot
+#      November, 2003
+#
+###############################################################################
+ID=MVPC /usr/photon/bin/pterm /home/celia/sandbox/gc/src/qnx/common/bin/mvpserver -m
+ID=DIR /usr/photon/bin/pterm /home/celia/sandbox/gc/src/qnx/common/bin/dirserver_g -m
+ID=sbw /usr/photon/bin/pterm /home/celia/sandbox/gc/src/qnx/common/bin/steerbywire_g

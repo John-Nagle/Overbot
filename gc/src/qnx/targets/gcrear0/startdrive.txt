@@ -1,0 +1,47 @@
+#
+#	Drives and follows waypoints, avoiding obstacles
+#
+#	Runs on gcrear0 and gcrear2
+#
+#	J.	Nagle
+#	Team Overbot
+#	September, 2005
+#
+#	VORAD radar - run, and make accessable for remote GUI programs
+PRI=16 ID=VORAD voradserver -n /dev/ser1
+ID=RVORAD remotemsgserver VORAD
+
+#	LIDAR
+PRI=15 ID=LMS lms
+
+#	Vision
+#### PRI=14 ID=ROAD roadfollowerserver /dev/fw0/dc-unibrain-fire-i_400_1.2-40 /home/vehicle/logs
+
+#	GPSINS - run, and make accessable by remote GUI programs
+PRI=16 ID=GPSINS gpsins -a /dev/ser2 -g /dev/ser3
+##  PRI=16 ID=GPSINS fusednav -a /dev/ser2 -g /dev/ser3
+ID=RGPSINS remotemsgserver GPSINS
+#
+#	Sign
+#
+PRI=12 ID=SIGN signserver /net/gcrear2/dev/ser4
+#
+#	Create a waypoint log.
+#
+ID=GPSLOGGER gpsins_logger -d /home/vehicle/logs
+#
+#	Move server
+#
+#	SET ABSOLUTE SPEED LIMIT BELOW
+PRI=18 ID=MOVE SPEEDLIM=6.0 move -v
+## PRI=15 ID=TESTMOVE remotemsgserver MOVE
+#
+#	Speed server
+#
+PRI=18 ID=SPEED  speed -v	
+#
+#	Map server, on gcrear2
+#
+NODE=gcrear2 PRI=18 ID=MAP OFFCOURSETOLERANCE=1.0   CLEARCELLROUGHNESS=15.0 NOGOCELLROUGHNESS=30.0  on -f gcrear2 /net/gcrear0/home/vehicle/bin/map  -w waypoints/waypoints.txt -d  /home/vehicle/logs 
+PRI=14 ID=DUMMYMAP remotemsgserver MAP
+

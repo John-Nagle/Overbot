@@ -1,0 +1,8 @@
+- what is the right number of tries?
+- add more parameter ranges
+- have MVP Server give heartbeat to watchdog (when it can accept them)
+- address all FIXs in code
+
+low priority
+- clean up FV command (additional field in message?)
+- make so db entry init doesn't have to be in same order as mvpserver.h?

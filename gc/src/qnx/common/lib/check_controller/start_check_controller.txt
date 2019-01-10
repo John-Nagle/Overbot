@@ -1,0 +1,19 @@
+#
+#  File: start_check_controller
+#
+#  Usage:
+#      cd ~/sandbox/gc/src/qnx/common/startfile
+#      ../bin/watchdog start_check_controller.txt
+#
+#  Description:
+#      Watchdog startup file for Controller testing.
+#
+#  Based on start_check_mvp of November 2003.
+#
+#  Written by:
+#      Celia Oakley
+#      Team Overbot
+#      February, 2004
+#
+##############################################################################
+ID=check_controller pterm ../bin/check_controller_g

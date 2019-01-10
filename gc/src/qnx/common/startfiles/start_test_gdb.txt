@@ -1,0 +1,15 @@
+#khianhao 11/17/03 Team Overbot
+#this start file tests to make sure that the watchdog can run programs on different nodes
+#behind gdb
+
+#program running on bobcat, pterm pop up on watchdog machine
+ID=testserver  NODE=bobcat pterm on -f bobcat /home/vehicle/bin/watchdogtest -s
+
+#pterm, gdb, program all running on bobcat
+ID=testclient_bobcat NODE=bobcat on -f bobcat pterm gdb /home/vehicle/bin/watchdogtest
+
+#pterm for running gdb (running on gcrear0) pop up on watchdog machine
+ID=testclient_fox NODE=fox pterm on -f fox gdb /home/khianhao/watchdogtest
+
+#no gdb
+ID=testclient_gcrear1_direct  /tmp/watchdogtest

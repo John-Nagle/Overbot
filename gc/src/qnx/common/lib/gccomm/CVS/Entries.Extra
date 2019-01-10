@@ -1,0 +1,13 @@
+/.cdtproject///
+/.project///
+D/x86///
+/common.mk///
+/serial.cc///
+/serial.h///
+/serialmenu.h///
+/Makefile///
+/ethernetmenu.h///
+/ethernetmenu.cc///
+/serialmenu.cc///
+/ethernet.h///
+/ethernet.cc///

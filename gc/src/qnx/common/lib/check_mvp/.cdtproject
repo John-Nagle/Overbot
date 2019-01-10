@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdtproject id="com.qnx.tools.ide.qde.core.qnx">
+    <extension id="com.qnx.tools.ide.qde.core.qnxBuilder" point="org.eclipse.cdt.core.CBuildModel"/>
+</cdtproject>

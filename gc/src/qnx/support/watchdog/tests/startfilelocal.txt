@@ -1,0 +1,6 @@
+#
+#	Test watchdog file
+#
+#	Starts a client and server, so they can talk
+ID=testclient ./watchdogtest
+ID=testserver ./watchdogtest -s

@@ -1,0 +1,18 @@
+#
+#  File: start_check_actserver.txt
+#
+#  Usage:
+#      cd ~/sandbox/gc/src/qnx/common/startfile
+#      ../bin/watchdog start_check_actserver.txt
+#
+#  Description:
+#      Watchdog startup file for Actuator Server testing.
+#
+#  Written by:
+#      Celia Oakley
+#      Team Overbot
+#      December, 2003
+#
+###############################################################################
+ID=MVPC pterm ../bin/mvpserver -m
+ID=ACT pterm ../bin/check_actserver_g -m

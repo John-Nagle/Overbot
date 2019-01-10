@@ -1,0 +1,3 @@
+- test with ampro, make sure they work
+- move to drivers
+- change name to devwd-ampro400, devwd-nova8890

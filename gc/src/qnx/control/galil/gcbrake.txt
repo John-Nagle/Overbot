@@ -1,0 +1,258 @@
+' Brake by wire, test version
+' John Nagle
+' UNTESTED - DO NOT DRIVE WITH THIS
+
+#AUTO
+'	Externally visible variables set by computer over the network.
+'	FAULT is the fault code.  Output
+FAULT=0
+'	READY indicates that the system will respond to goal setting.  Output
+READY=0
+'	AUTO is always on
+AUTO=1
+'	GOALMIN and GOALMAX are the allowed range for GOAL, Output
+GOALMIN=0
+GOALMAX=1.25
+'	GOAL is set to set the desired brake pressure. Input.
+'	Start at brakes-locked condition
+GOAL=GOALMAX
+
+'	SPEED is desired movement speed. Input 
+SPEED=100000
+'
+'	Home this many counts from limit switch
+BLOFFSET=1000
+'
+'	P Gain of our pressure servo loop
+PGAIN=0.25
+'
+'	Fix recommended by Galil tech support.
+CW,1
+'
+'	A GOAL of 0 releases the brakes completely and moves the
+'	brake actuator to the reverse limit.
+'	A GOAL > 0 causes the system to seek the desired
+'	brake pressure.
+'	GOAL is expressed in volts
+'
+'	Brake pressure is on @AN[1]
+'
+'	Brake parameters
+'	Min and max voltages from pressure transducer.
+'	Attempts to set values below min will release brake.
+BKMINV=0.10
+BKMAXV=GOALMAX
+BKINITV=GOALMAX
+'	Start up with brakes at initial value
+GOAL=BKINITV
+'	Brake encoder range
+BKENCMAX=57000
+BKENCHM=1000
+PSCALE=BKENCMAX/(BKMAXV-BKMINV)
+'	Servo system settings
+'	Limit torque.  CHECK this against motor specs.
+TL 3.0
+KI 0.1
+KP 6
+KD 64
+AC 1000000
+DC 1000000
+'	Do NOT stop on error. Better to keep control.
+OE 0
+'	Brake encoder is meaningful if BSYNC is set
+BSYNC=0
+'	Encoder zero is at brake release
+'	BKMINE and BKMAXE are where the pressure
+'	starts to increase and where to stop
+'	RSPEED is speed for finding rear limit stop
+RSPEED=10000
+'	PPREC is pressure precision desired. Stop when reached.
+PPREC=0.03
+'	MTIME - servo loop period, ms.
+MTIME=10
+'	Calculate minimum and maximum allowed moves
+BMINMOVE=PSCALE*PPREC*(BKMAXV-BKMINV)
+BMEDMOVE=SPEED*MTIME*0.001
+'	Enable motors
+SH
+'	Initialize movement system
+AM
+JS #MVWAIT
+READY=1
+'	Brake main loop
+#BLOOP
+'	Either set to pressure, or set to full release
+IF (GOAL > 0)
+JS #BPRESS
+ELSE
+ JS #BREL
+ENDIF
+WT MTIME
+JP #BLOOP
+EN
+
+'	Set brake to desired pressure
+#BPRESS
+'	Get current brake pressure
+PRESS=@AN[1]
+PGOAL=GOAL
+'	Limit goal to sane values
+IF (PGOAL < BKMINV)
+PGOAL=BKMINV
+ENDIF
+IF (PGOAL > BKMAXV)
+PGOAL=BKMAXV
+ENDIF
+PERR=PGOAL-PRESS
+'	Dead band on pressure.  Avoid oscillation
+IF (@ABS[PERR]< (PPREC*BKMAXV))
+PERR=0
+ENDIF
+'	Compute amount to move
+'	Move should almost always undershoot, to avoid oscillation
+MOVE=PERR*PSCALE*PGAIN
+'	If in dead band before pressure is applied, move larger distance
+IF ((PRESS<(BKMINV*0.8)) & (MOVE>0) & (MOVE < BMEDMOVE))
+ERRMOVE=BMEDMOVE
+MOVE=BMEDMOVE
+ENDIF
+'	Move relative to current actual position
+MVGOAL=_TP+MOVE
+'	Finally start a move towards MVGOAL
+SP SPEED
+JS #MVTO
+EN
+
+'	Release brake 
+#BREL
+'	If homed, we just move to zero
+IF (BSYNC>0)
+'	Just move toward zero
+SP SPEED
+MVGOAL = 0
+JS #MVTO
+ELSE
+'	Un-homed - we have to find zero, slowly
+IF (_LR1)
+'	Not at limit, must move, slowly, towards limit.
+'	Limit switch will stop us.
+IF (_BG = 0)
+SP RSPEED
+JS #MVWAIT
+IP -BMINMOVE
+AM
+MVPPOS=_PA
+JS #MVWAIT
+ENDIF
+ELSE
+'	Limit switch set, must move away from limit
+JS #MVWAIT
+IP BLOFFSET
+AM
+JS #MVWAIT
+DP -BLOFFSET
+AM
+MVPPOS=_PA
+JS #MVWAIT
+BSYNC=1
+'	We are now synchronized. Further moves should not hit the limit switch.
+'	ENDIF BG=0
+ENDIF
+'	ENDIF _LR1
+ENDIF
+'	ENDIF (BSYNC>0)
+ENDIF
+EN
+
+'
+'	General move support
+'
+'	Supports absolute moves which can be interrupted
+'
+'
+'	#MVTO  --start movement towards MVGOAL
+'
+'	Obeys hardware and software limit stops
+'
+#MVTO
+'	Round to integer encoder count
+TGOAL=@RND[MVGOAL]
+'	Check and obey software limits. Never command move into limit.
+JS #MVLIM
+'	Decide whether a direction reverse and resync is needed.
+IF (((TDIFF>0) & (MVPDIFF<0)) | ((TDIFF<0) & (MVPDIFF>0)))
+'	Don't reverse if the overshoot is small.  Otherwise, small
+'	changes in the destination produce random stalls near the
+'	beginning of motion
+'	Estimate worst case stopping distance
+TSTOPDST=(0.5*_SP)*(_SP/_DC)
+IF ((@ABS[TDIFF]<TSTOPDST) & (@ABS[_TP-MVPPOS] >= TSTOPDST))
+TDIFF=0
+ELSE
+'	We are going to move, and we have to stop the current move first.
+'	When MVWAIT returns, commanded velocity is zero.
+JS #MVWAIT
+'	Must recalc move limits after a wait. MVPPOS may change.
+JS #MVLIM
+ENDIF
+'	Normal case; extend existing IP move
+ENDIF
+'	Move, if necessary
+IF (TDIFF <> 0)
+ERRBG=_BG
+ERRTDIFF = TDIFF
+IP TDIFF
+MVPPOS = MVPPOS+TDIFF
+MVPDIFF = TDIFF
+ENDIF
+EN
+
+'
+'	#MVWAIT  -- wait for move to finish
+'
+'	Must call this once before calling MVTO for the first time
+'	Stops, waits for move to finish, resyncs
+'
+#MVWAIT
+TTIME=TIME
+ST
+AM
+SH
+AM
+MVPDIFF=0
+MVPPOS=_PA
+EN
+
+'
+'	#MVLIM  -- check limits of move
+'
+'	Input: TGOAL
+'	Output: TDIFF
+'	Looks at: MVPPOS, limit info
+'
+'	Check and obey software limits. Never command move into limit.
+#MVLIM
+IF (TGOAL > _FL)
+TGOAL = _FL
+ENDIF
+IF (TGOAL < _BL)
+TGOAL = _BL
+ENDIF
+TDIFF = TGOAL-MVPPOS
+'	Check and obey limit switches.  Never command move into limit.
+IF ((TDIFF > 0) & (_LF1=0))
+TDIFF=0
+ENDIF
+IF ((TDIFF < 0) & (_LR1=0))
+TDIFF=0
+ENDIF
+EN
+
+'
+'	Error handling
+'
+'	Error handling removed.  Better to keep servoloop running.
+'
+
+
+

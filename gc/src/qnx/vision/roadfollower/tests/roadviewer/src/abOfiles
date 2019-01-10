@@ -1,0 +1,1 @@
+ABOBJ = abmain.o base_window_closing.o base_window_opening.o camera_run_button.o file_open_dlg_open.o redraw_timer.o video_port_draw.o 

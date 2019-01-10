@@ -1,0 +1,1 @@
+ABSRC = ../abmain.c ../addwaypoint.c ../artHorizonDraw.c ../artHorizonInit.c ../clear.c ../closewaypointfile.c ../compassDraw.c ../compassInit.c ../myTimerActivate.c ../myTimerRealized.c ../positionViewDraw.c ../positionViewInit.c ../quit.c ../start.c ../togglePause.c ../trendUncRealized.c ../waypoint_file_dlg_open.c ../zero.c ../zoomIn.c ../zoomOut.c 

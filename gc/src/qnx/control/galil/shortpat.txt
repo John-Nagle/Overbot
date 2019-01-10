@@ -1,0 +1,83 @@
+''''PROGRAM: SHORTPA - Short PA Test
+' need to input Xfinal, Vmax, Ainit
+' and SH
+' and DP 0
+' and Xinit=_TP
+#SHORTPA
+' safeguards
+BL -120000
+FL 120000
+TL 5
+' initialize variables
+Tinit=0
+Tnow=Tinit
+Xinit=0
+Xnow=Xinit
+Xfinal=80000
+Dir=(Xfinal-Xinit)/@ABS[Xfinal-Xinit]
+Vinit=0
+Vmax=8000*Dir
+Ainit=8000*Dir
+Afinal=Ainit
+PATdel=1
+PAXfinal=Xinit
+AT 0
+JS #TargPar
+JS #NextPA
+#WHILE
+JP #WHILEN, Tnow>=Tfinal
+JS #SendPA
+Tnow=Tnow+PATdel
+Xnow=PAXfinal
+JS #NextPA
+AT Tnow*1000
+JP #WHILE
+#WHILEN
+EN
+'''' SUBROUTINE: TargPar - Compute target profile numbers
+#TargPar
+T1=Vmax/Ainit
+X1=1/2*Ainit*T1*T1+Xinit
+X2=Xfinal-(0.5*Vmax*(Vmax/Afinal))
+T2=(X2-X1)/Vmax+T1
+Tfinal=T2+(Vmax/Afinal)
+EN
+'''' SUBROUTINE: NextPA - Compute next Short PA values
+#NextPA
+PAXinit=PAXfinal
+PATfinal=Tnow+PATdel
+IF (PATfinal<T1)
+PAXfinal=(1/2*Ainit*PATfinal*PATfinal)+Xinit
+ELSE
+IF (PATfinal<T2)
+PAXfinal=(Vmax*(PATfinal-T1))+X1
+ELSE
+IF (PATfinal<Tfinal)
+PAXfinal=(-1/2*Afinal*(PATfinal-T2)*(PATfinal-T2))+(Vmax*(PATfinal-T2)+X2)
+ELSE
+PAXfinal=Xfinal
+ENDIF
+ENDIF
+ENDIF
+' use in PATdel2 place of PATdel so done twice as fast
+' 0.84 seems to work in both directions
+PATdel2=0.84*PATdel
+PAVmax=2*(PAXfinal-PAXinit)/PATdel2
+PAAinit=2*PAVmax/PATdel2
+PAAfinal=PAAinit
+' calculate final PA time for checking
+PAT1=PAVmax/PAAinit
+PAX1=1/2*PAAinit*PAT1*PAT1+PAXinit
+PAX2=PAXfinal-(0.5*PAVmax*(PAVmax/PAAfinal))
+PAT2=(PAX2-PAX1)/PAVmax+PAT1
+PATf=PAT2+(PAVmax/PAAfinal)
+EN
+'''' SUBROUTINE: SendPA - Send PA commands etc.
+#SendPA
+PA PAXfinal
+SP @ABS[PAVmax]
+' make sure accelerations are rounded up
+AC @ABS[PAAinit]+1023
+DC @ABS[PAAfinal]+1023
+BG
+EN

@@ -1,0 +1,32 @@
+D/cv////
+D/cvaux////
+D/check_ask////
+D/gcui////
+D/check_ideconsole////
+D/check_menu////
+D/check_mvp////
+D/check_serial////
+D/check_timedloop////
+D/gccomm////
+D/gccontrol////
+D/check_getoptions////
+D/check_linearreg////
+D/check_math////
+D/gccalib////
+D/gcmath////
+D/getoptions////
+/lib1394llaMulti.a/1.2/Fri Dec  5 04:12:01 2003//
+/lib1394llaMulti.so/1.2/Fri Dec  5 04:12:01 2003//
+/libdscud5.a/1.1/Mon Dec 15 10:44:21 2003//
+/licgui/1.1/Fri Dec  5 04:08:59 2003//
+/list1394.txt/1.1/Fri Dec  5 04:08:59 2003//
+D/check_actserver////
+D/ffmpeg////
+D/gcactserver////
+D/check_ethernet////
+D/check_controller////
+D/check_usbhid////
+D/usbhid////
+/Makefile/1.2/Thu Dec  9 18:28:16 2004//
+/buildalllibs.sh/1.4/Tue Feb  1 19:12:48 2005//
+D/opensteer////

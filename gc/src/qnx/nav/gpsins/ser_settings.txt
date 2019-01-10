@@ -1,0 +1,9 @@
+Name:  /dev/ser1
+Type:  serial
+Opens: 1
++raw +clocal +echoke +echoctl +ignbrk +imaxbel +opost +onlcr
++isflow +ihflow +ohflow
+ intr=^C  quit=^\ erase=^?  kill=^U   eof=^D start=^Q  stop=^S  susp=^Z 
+lnext=^V   min=00  time=00   pr1=^[   pr2=5B  left=44 right=43    up=41 
+ down=42   ins=40   del=50  home=48   end=59 
+par=none bits=8 stopb=1 baud=9600 rows=0,0

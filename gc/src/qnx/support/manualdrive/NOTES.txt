@@ -1,0 +1,42 @@
+October 2004
+
+Manual driving works reasonably well.
+
+Known problems:
+-- USB joystick driver times out after a day of idle time. Joystick does not
+   work again until unplugged and plugged back in. 
+   
+-- When the vehicle is power-cycled, the WiFi bridge loses its routing information.
+   It's necessary to then either wait about five minutes for the ARP cache to
+   time out, or execute the following commands as the super-user
+   
+   	arp -d gcsteer
+   	arp -d gcbrake
+   	arp -d gcthrottle
+   	
+October 12, 2004
+
+Beginnings of move server tester.
+
+Basic concept: 
+-- Enter move server mode.
+-- Arm system.
+-- Enter move parameters. (distance, max speed, 1/turn radius)
+   -- turn radius prefilled from steering wheel
+   -- 
+-- Click to start move.
+-- Click again to continue move with same distance to stop
+-- Brake pedal and stop button on steering wheel still active and will
+   abort move. 
+-- Move server should use radar to prevent collisions.
+-- Overrunning move limit will trigger E-stop.
+
+Move server mode is internally quite different from manual driving mode.  
+"manualdrive" talks to controllers only in read-only mode.  The move
+server owns the controllers.
+
+Who starts the move server? Where does it run?
+What associated software comes up when the move server comes up?
+Who resets the stall timer?  
+Should this be a separate program?
+

@@ -1,0 +1,6 @@
+#
+#	Test watchdog file
+#
+#	Starts a client and server, so they can talk
+ID=testclient pterm /usr/bin/gdb watchdogtest
+ID=testserver pterm ./watchdogtest -s

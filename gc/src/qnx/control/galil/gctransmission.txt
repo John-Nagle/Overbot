@@ -1,0 +1,240 @@
+' Manual transmission by wire
+' John Nagle
+' Used successfully.
+
+#AUTO
+'	Externally visible variables set by computer over the network.
+'	FAULT is the fault code.  Output
+FAULT=0
+'	READY indicates that the system will respond to goal setting.  Output
+READY=0
+'	AUTO is always on, there is only AUTO mode
+AUTO=1
+'	GOALMIN and GOALMAX are the allowed range for GOAL, Output
+GOALMIN=0
+GOALMAX=4
+'	GOAL is set to set the desired throttle position. Input.
+'	Initially, the goal is 0, and nothing happens.
+'
+'	Transmission is set in GEAR NUMBER (0..GOALMAX)
+'		0=do nothing
+'		1=REVERSE
+'		2=NEUTRAL
+'		3=LOW
+'		4=HIGH
+'
+'	Position for each gear
+'	Calibrated OK
+DM GEARPOS[5]
+GEARPOS[0]=0
+GEARPOS[1] = 950
+GEARPOS[2] = 700
+GEARPOS[3] = 450
+GEARPOS[4] = 100
+'
+'	"Wiggle" amount.  
+MVWIG=50
+
+'
+
+GOAL=0
+'	ACTUAL is the current "gear" the transmission is in
+ACTUAL=0
+'	SPEED is desired movement speed. Input 
+'	DO NOT CHANGE.
+SPEED=200
+'	Number of retries due to trouble reaching target
+ERRCNT=0
+
+'	Fix recommended by Galil tech support.
+CW,1
+
+' 	Transmission drive parameters
+'	Operating range
+MAXE=1023
+MINE=0
+'	There are no limit switches.
+'	Analog feedback from linear pot, with range 0..5V
+'	This equates to psuedo encoder counts of 0..1023
+AF 1
+'	
+'	Motor torque limited to reasonable value
+TL 5
+'	Controller gains and speeds (rather ad-hoc, but tolerable)
+'	D term works badly with analog feedback.
+'	I term is small, just enough so we eventually hit/pass the target.
+'	This is only so we can use a Motion Complete timeout.
+'	When done shifting, we turn the motor off.
+'	Otherwise, noise keeps the integral term too busy.
+'
+KD 0
+KP 20
+KI 0.00
+DC 2000
+AC 2000
+'	10 second timeout. Should be enough in worst case.
+TW 10000
+SP SPEED
+'	Maximum error is 10% of full range
+'	Controller will retry if that is exceeded.
+MAXERR=50
+'	Max number of retries
+MAXTRIES=10
+'	System initialization complete
+'	Do transmission loop
+JS #MTRANS
+EN
+
+' Transmission 
+' At entry position is unknown, but we have absolute feedback.
+#MTRANS
+MTIME=10
+' Set motion limits
+BL 0
+FL MAXE
+' Enable motor
+ER MAXERR
+' Off-on-error enabled
+'	***TEMP*** OE 1
+SP SPEED
+READY=1
+#MLOOP
+'	Take command from variable GOAL
+CURGOAL=GOAL
+'	If goal is zero, we are not controlling the transmission yet,
+IF ((CURGOAL==0) | (CURGOAL>4))
+ACTUAL=0
+CURGOAL=0
+MO
+ENDIF
+'	If not equal, go do a move
+IF (CURGOAL<>ACTUAL)
+JS #MVTRANS
+ELSE
+'	If idle, look at the manual switches
+JS #MANSW
+ENDIF
+WT MTIME
+JP #MLOOP
+EN
+
+'
+'	Subroutine MVTRANS  -- move transmission to desired goal
+'
+'	Input is CURGOAL (1..4)
+'	Faults if can't get to desired goal
+'
+#MVTRANS
+ACTUAL=0
+'	Desired position
+MVGOAL=GEARPOS[CURGOAL]
+'	Keep count of tries
+MVTRIES=0
+'	Move to desired position
+'	Retry loop, if needed.
+#MVRETRY
+'	Check for too many retries
+IF (MVTRIES>MAXTRIES)
+'	Fault - save error values for debug
+ERRTP=_TP
+ERRMV=MVGOAL
+ERRBG=_BG
+ERRPA=_PA
+ERRTE=_TE
+MO
+FAULT=2
+READY=0
+HX
+ENDIF
+'	Total retry counter - debug info only
+IF (MVTRIES>0)
+ERRCNT=ERRCNT+1
+ENDIF
+MVTRIES=MVTRIES+1
+'	Try move to desired position
+SH
+AM
+PA MVGOAL
+BG
+AM
+'	"Wiggle" around desired position
+JS #WIGGLE
+'	We should now be at desired position
+'	But analog actual position values are sometimes noisy.
+'	Must handle this.
+'	Allow time for servo to settle, then read final position with motor off
+WT 100
+MO
+WT 1
+TFINAL=_TP
+TERR=@ABS[TFINAL-MVGOAL]
+JP #MVRETRY, (TERR>MAXERR)
+'	Success - in new gear
+ACTUAL=CURGOAL
+
+EN
+'
+'	Subroutine WIGGLE -- wiggle around desired position to drop into gear
+'
+#WIGGLE
+'	Compute wiggle limits, and bound them
+TWIG=MVWIG
+'	Wiggle loop
+'	Move back and forth over a decreasing range until on target.
+#WGLOOP
+TMIN=MVGOAL-TWIG
+TMAX=MVGOAL+TWIG
+IF (TMIN<_BL) 
+TMIN=_BL
+ENDIF
+IF (TMAX>_FL)
+TMAX=_FL
+ENDIF
+IF (TMAX > TMIN)
+AM
+PA TMAX
+BG
+AM
+PA TMIN
+BG
+AM
+PA MVGOAL
+BG
+AM
+'	End of one wiggle cycle.
+'	Narrow wiggle range
+TWIG=@RND[(TWIG/2)-1]
+ENDIF
+JP #WGLOOP,TMAX>TMIN
+EN
+'
+'	Subroutine MANSW  -- read and act on manual transmission switch
+'
+'	Setting digital input 1 to 0 causes a shift down.
+'	Setting digital input 2 to 0 causes a shift up.
+'
+#MANSW
+SWDN=@IN[1]
+SWUP=@IN[2]
+'	If switches are active (i.e. different)
+IF (SWDN <> SWUP)
+'	If transmission position unknown, shift to neutral.
+IF (GOAL=0)
+GOAL= 2
+ELSE
+IF SWDN
+'	Downshift if not at limit
+IF (GOAL > 1)
+GOAL=GOAL-1
+ENDIF
+ELSE
+'	Upshift if not at limit
+IF (GOAL<GOALMAX)
+GOAL=GOAL+1
+ENDIF
+ENDIF
+ENDIF
+ENDIF
+EN
+
+

@@ -1,0 +1,126 @@
+Notes on FireWire device driver
+John Nagle
+
+12 FEB 2003
+
+Bus identification is in good shape, except that it's still not clear why it's necessary to reset
+the bus twice at startup to get any self-ID packets. Directory read works fine.
+Hot-plugging works OK, although we may need to check incoming isochronous
+messages against bus generation numbers to discard old data. And we're not
+yet resetting devices to their previous state after a bus reset.
+
+User program ability to set and clear device control registers using devctl functions 
+sort of works.  A user program can turn the camera on, but not off. Unclear why.
+Reading control info from cameras works fine.  More devctl functions are needed, but
+the basics are in place.
+
+A primitive version of isochronous input is working, badly. This needs a 
+complete overhaul. First, channel allocation needs to be separated from
+channel listening, because sometimes the sender allocates the channel.
+Second, we need to figure out how much data to expect from a device
+and read that much. Right now, we're looking at the "syncro" bit to
+tell us when a frame begins, which doesn't tell us when a frame ends
+until the next frame comes in.  If we read a single frame that way,
+we will hang.
+
+Read operations aren't yet done right in the QNX sense. We need to do
+a proper client block while releasing the server thread for other
+work. But the documentation on how to do this is unclear.  Can we use
+a multithreaded resource manager instead, and block the thread that handles 
+the operation?  It's still not clear how multithreaded resource managers are organized.
+It's also not clear how a resource manager queues operations. Can a second I/O
+for a device come in while the first I/O is blocked?  Or does the resource manager
+library prevent that?
+
+Worse, we seem to be losing isochronous packets. We're still using
+the Mindready test driver to actually make the LLA calls. That's buggy
+when used under heavy traffic. It uses vast amounts of CPU time,
+and it's not clear why. There's at least one spin-lock when out of
+buffers.  We need to rewrite the queuing, and
+probably get rid of the Mindready low-level driver.
+
+19 FEB 2003
+
+Able to read a frame, now and then, but isochronous queuing is losing packets.
+
+Combining Mindready back end into driver. Basic approach:
+- Use a bounded buffer to queue events between LLA and driver.
+- Commands from high level to low level call directly.
+- No shared memory.
+- Reads from LLA which return dbufs have dbufs linked to events.
+- Events with attached dbufs are processed during event decode, and
+  dbufs are then released. Data is copied only once, to the final output
+  message.
+  
+  The only change that requires real work is dbuf management.
+  
+20 FEB 2002.
+
+Hammered both ends of the driver together. They sort of fit.
+To do before testing at all.
+-- Accept data from dbufs from iso and async receive,
+   and free dbufs.
+-- Put in proper kill signal handling. MUST shut down adapter on
+   all exits or DMA will crash system.
+--  Check handling of data passed down from app to driver level.
+   Get rid of vestages of shared memory, and always pass data
+    via the pointer in the command packet. [ALL DONE]
+   
+To do:
+-- Make low level an object, with methods.					[DONE]
+-- Fix frame-in-dbuf mode for better performance.		[DONE]
+-- Check amount of memory allocated. 						[DONE]
+-- Write proper error  message queue; don't put printout in main event queue.	[DONE]
+-- Provide exception handlers.
+-- Eliminate extra data copy from dbuf to frame buffer to message.
+
+25 FEB 2002
+
+Working just like it did before the merge - still getting partial frames. 
+Unclear why.
+
+To do:
+Above, plus
+-- Find out why isochronous reads return too little data.					[DONE]
+-- Put proper buffering into read.
+-- Allocate isochronous channels properly.										[DONE]
+-- Support multiple adapters, at least at the object level.					[DONE]
+
+27 MAR 2003
+
+After a major rewrite, working reasonably well, although not setting camera params yet.
+
+To do:
+-- Define, implement, and document API for setting camera modes.	[DONE]
+-- Make driver multi-threaded.
+-- Check that locking is sufficient for multi-threaded driver.
+-- Make buffering smarter about not requiring contiguous physical memory.
+
+-- Fix isochronous shutdown to stop reception, release both buffers and copies, then delete buffer pool.
+
+8 APR 2003
+
+-- Intermittent EINVAL exceptions failures when unlocking mutexes - why?
+-- fixed
+
+2 JUN 2003
+
+- Upgraded to new LLA for QNX 6.2.1.  Almost works.  But removing
+  a node to which I/O is in progress may result in the wrong device being reactivated. Check
+  where node number comes from after a restart. Node numbers as reported
+  by debug output look good.
+  
+ 28 JUN 2003
+ 
+ - Fixed wrong device activation.
+ 
+ - Have seen two crashes at startup. Both occur right after LLA prints its initialization message.
+ Entire system locks up. Never saw this with old LLA.
+
+25 OCT 2003
+
+- Works with new LLA under QNX 6.2.1. QNX changed API for memory access.
+- Known bugs:
+	- Exclusive use not implemented.
+	- Multiple readers for multiple cameras interfere. This should work.
+	- Debug messages should go on verbose flag.

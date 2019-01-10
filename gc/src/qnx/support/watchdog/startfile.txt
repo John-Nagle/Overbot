@@ -1,0 +1,7 @@
+#
+#	Test watchdog file
+#
+PRI=14 devfw-ohci
+MAXSIZE=1000000 testprog
+MAXPRI=22 MINPRI="10" testprog2 foo "My Documents" -a -bc +d 3.1414 /dev/fw0
+ls "\"test\""

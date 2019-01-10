@@ -1,0 +1,18 @@
+#
+#  File: start_gearserver.txt
+#
+#  Usage:
+#      cd ~/sandbox/gc/src/qnx/common/startfile
+#      ../bin/watchdog start_gearserver.txt
+#
+#  Description:
+#      Watchdog startup file for Gear Server testing.
+#
+#  Written by:
+#      Celia Oakley
+#      Team Overbot
+#      November, 2003
+#
+###############################################################################
+ID=MVPC pterm ../bin/mvpserver -m
+ID=GEAR pterm ../bin/gearserver_g -m

@@ -1,0 +1,4 @@
+#	Startfile for voradviewer test
+#  NOTE: need to set serial port to 19200 baud, raw mode. FIX in program.
+ID=VORAD /home/nagle/sandbox/gc/src/qnx/drivers/vorad/voradserver -v  /net/gcrear0/dev/ser1
+ID=VORADVIEWER  /home/nagle/sandbox/gc/src/qnx/drivers/vorad/tests/voradviewer/src/gcc_ntox86/voradviewer

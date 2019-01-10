@@ -1,0 +1,31 @@
+Speed server notes
+
+2004-11-2
+
+Starting from Achut's version.
+
+Overhauled input message formats. Reasonably happy with those.
+
+Design issues:
+-- How do we run the speed server from manualdrive, for testing?
+-- How do we run the speed server in simulation mode?
+-- What code should be made common between manualdrive and the speed server?
+-- How do we store tuning/configuration parameters?
+
+-- Do we want to move some common code for the speed server and
+   manualdrive to a common library?
+   
+2004-11-11
+
+Speed server will run and read chassis status, but doesn't issue any commands.
+
+Speed control logic plan:
+
+When the move server has no strong preferences about acceleration, it
+should specify an acceleration of zero. This implies "cruise control" mode
+- slow acceleration and deceleration. In fact, we will always
+accelerate rather slowly in the initial version. 
+
+If the requested speed is below the current speed and the acceleration 
+is nonzero, braking will be performed to match the desired decel rate, based
+on data from the INS.

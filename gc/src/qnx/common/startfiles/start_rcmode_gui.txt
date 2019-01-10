@@ -1,0 +1,19 @@
+#khianhao 12/14/03 Team Overbot
+#the start file used to test interaction between rcmode_gui, brakeserver, gearserver, dirserver and 
+#throttleserver
+
+
+ID=RCMODE_GUI  ../bin/rcmode_gui
+
+ID=MVP1 ../bin/mvpserver
+ID=BRAKE pterm ../bin/brakeserver -m
+
+ID=MVP2  ../bin/mvpserver
+ID=GEAR pterm ../bin/gearserver -m
+
+ID=MVP3  ../bin/mvpserver
+ID=DIR pterm ../bin/dirserver -m
+
+ID=MVP4 pterm  ../bin/mvpserver -m
+ID=THROTTLE pterm  ../bin/throttleserver -m
+

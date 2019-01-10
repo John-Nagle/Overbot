@@ -1,0 +1,14 @@
+----------------------------------
+MicroCode Engineering, Inc. 
+NcDrill Tool Loading Specification
+PCB File : GERBER$$.PCB
+Date     : 12-3-2003
+Time     : 18:1:8
+----------------------------------
+T01 190
+T02  28
+T03  42
+T04  85
+T05  60
+T06  86
+T07 125

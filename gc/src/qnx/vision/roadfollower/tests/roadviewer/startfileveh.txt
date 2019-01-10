@@ -1,0 +1,6 @@
+#	Startfile for roadviewer test
+ID=ROAD NODE=gcrear0 on -f gcrear0 /net/gcrear0/home/vehicle/bin/roadfollowerserver -v  /net/gcrear0/dev/fw0/dc-unibrain-fire-i_400_1.2-40 /tmp/vision -r 1
+ID=RROAD NODE=gcrear0 on -f gcrear0 /net/gcrear0/home/vehicle/bin/remotemsgserver ROAD
+# ID=ROAD ~/sandbox/gc/src/qnx/vision/roadfollower/roadfollowerserver -v  /dev/fw0/dc-unibrain-fire-i_1.2-8804 /tmp/vision -r 1
+#ID=ROADVIEWER ~/sandbox/gc/src/qnx/vision/roadfollower/tests/roadviewer/src/gcc_ntox86/viewer -v 
+

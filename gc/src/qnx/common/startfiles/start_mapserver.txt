@@ -1,0 +1,18 @@
+#
+#  File: start_mapserver.txt
+#
+#  Usage:
+#      cd ~/sandbox/gc/src/qnx/common/startfile
+#      ../bin/watchdog start_mapserver.txt
+#
+#  Description:
+#      Watchdog startup file for Map Server 
+#
+#  Written by:
+#      Achut Reddy
+#      Team Overbot
+#      January, 2004
+#
+###############################################################################
+ID=MAP pterm -Z ../bin/map_g -v
+

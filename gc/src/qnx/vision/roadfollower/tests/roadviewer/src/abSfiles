@@ -1,0 +1,1 @@
+ABSRC = ../abmain.c ../base_window_closing.c ../base_window_opening.c ../camera_run_button.c ../file_open_dlg_open.c ../redraw_timer.c ../video_port_draw.c 

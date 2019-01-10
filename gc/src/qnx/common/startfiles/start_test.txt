@@ -1,0 +1,14 @@
+#
+#khianhao 11/17/03 Team Overbot
+#this start file tests to make sure that the watchdog can run programs on different nodes
+#without pterms
+#as of testing on 11/29/03
+#testclient5 will report about 80000 msg/sec
+#the others about 1000 msg/sec
+
+ID=testserver  NODE=bobcat on -f bobcat /home/vehicle/bin/watchdogtest -s 
+ID=testclient_gcrear1 NODE=gcrear1 on -f gcrear1 /home/vehicle/bin/watchdogtest
+ID=testclient_gcrear0 NODE=gcrear0 on -f gcrear0 /home/vehicle/bin/watchdogtest
+ID=testclient_gcrear1_direct /tmp/watchdogtest
+ID=testclient_fox NODE=fox on -f fox /home/khianhao/watchdogtest
+ID=testclient_bobcat NODE=bobcat on -f bobcat /home/vehicle/bin/watchdogtest

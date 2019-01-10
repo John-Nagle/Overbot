@@ -1,0 +1,32 @@
+SOFAR for water sensor
+Khian Hao Lim 11/4/03
+Team Overbot
+-------------------------------------
+
+We would like to have about 2 water detectors that sit at the wheel level of the chassis of the vehicle.
+One would be slightly higher than the other. At the most basic level, they each need to tell the vehicle
+computers a boolean value of whether it detects water right now or not. Ideally they would serial
+RS232 but a ttl signal would do fine too and we will find ways to read the ttl signal.
+
+-------------------------------------
+General water detectors found:
+
+- hobby alarm kits that detects water conductivity and starts beeping
+- industrial strength water depth, conductivity sensors that are very expensive and
+talk to their own custom electronics to give visual display
+- home protection kits that detects water and beeps or talks to security systems
+
+-------------------------------------
+Looking at:
+
+- industrial strength depth sensor (http://www.paroscientific.com/pdf/Series8000.pdf) that
+  gives out RS232. Problem: 20 cm in length, 3 cm in diameter and possibly very expensive.
+
+-------------------------------------
+bought:
+
+- a water detector circuit from http://www.electrodepot.com/i0660.htm 
+needs separate circuit to work with it
+
+- a toy hobby water detector circuit that detects water conductivity and starts beeping
+gives out ttl signal

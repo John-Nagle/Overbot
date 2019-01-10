@@ -1,0 +1,1 @@
+1.  Get unit into "availability mode 3", to avoid dazzle shutdowns. 

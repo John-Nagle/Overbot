@@ -1,0 +1,19 @@
+#
+#	Startfile for dummy offline move server testing
+#
+#	Speed server in dummy mode. Exports SPEED server under watchdog, and DUMMYGPSINS server via name_attach
+PRI=17 ID=SPEED  DUMMYUNDERSTEER=0.0 DUMMYX=0.0 DUMMYY=-6.0 ~/sandbox/gc/src/qnx/control/speed/x86/o-g/speed_g -v -s -t testdata/dummyvoradtargets.txt
+##PRI=17 ID=SPEED  DUMMYUNDERSTEER=0.20 ~/sandbox/gc/src/qnx/control/speed/x86/o-g/speed_g -v -s -t testdata/dummyvoradtargets.txt
+#	Reverse remote message server simulates GPSINS using DUMMYGPS
+PRI=17 ID=GPSINS ~/sandbox/gc/src/qnx/support/remotemsgserver/x86/o-g/remotemsgserver_g -r DUMMYGPS -v
+#	Dummy LIDAR server
+PRI=15 ID=LMS ~/sandbox/gc/src/qnx/drivers/dummylms/x86/o/dummylms
+# Dummy road follower
+PRI=15 ID=ROAD ~/sandbox/gc/src/qnx/vision/dummyroadfollower/x86/o/dummyroadfollower
+#	Move server - thinks everything is real, althoug it isn't.
+## PRI=15 ID=MOVE SPEEDLIM=25 ~/sandbox/gc/src/qnx/nav/move/x86/o/move
+PRI=17 ID=MOVE SPEEDLIM=6 ~/sandbox/gc/src/qnx/nav/move/x86/o/move
+#	Map server - thinks everything is real, although it isn't.
+PRI=18 ID=MAP STEERINGDWELLTIME=0.300 DEFAULTSCANRANGE=12.0 SCANRANGEFACTOR=2.0 STRAIGHTSPEED=25.0 TURNSPEED=25.0 GOALDIST=15 LATERALFRICTION=0.2 BRAKINGFRICTION=0.25 ~/sandbox/gc/src/qnx/nav/map/x86/o/map  -v -v -w testdata/dummywaypoints.txt -d /tmp/maplogs
+#	Dummy map server - gives us remote access to map server
+ID=DUMMYMAP ~/sandbox/gc/src/qnx/support/remotemsgserver/x86/o-g/remotemsgserver_g MAP

@@ -1,0 +1,7 @@
+21:44:20 [GPSINS] Yaw check: raw 0x50 0x96 = 20630 = 113.3240 deg = 113.3240 deg in RPY.
+21:44:22 [GPSINS] Yaw check: raw 0x50 0xb6 = 20662 = 113.4998 deg = 113.4998 deg in RPY.
+21:44:23 [GPSINS] Yaw check: raw 0x50 0xa6 = 20646 = 113.4119 deg = 113.4119 deg in RPY.
+21:44:25 [GPSINS] Yaw check: raw 0x50 0xb5 = 20661 = 113.4943 deg = 113.4943 deg in RPY.
+21:44:27 [GPSINS] Yaw check: raw 0x50 0xbd = 20669 = 113.5382 deg = 113.5382 deg in RPY.
+21:44:29 [GPSINS] Yaw check: raw 0x50 0xb1 = 20657 = 113.4723 deg = 113.4723 deg in RPY.
+21:44:30 [GPSINS] Yaw check: raw 0x50 0xa0 = 20640 = 113.3789 deg = 113.3789 deg in RPY.

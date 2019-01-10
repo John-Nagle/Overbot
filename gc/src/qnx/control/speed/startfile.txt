@@ -1,0 +1,4 @@
+#	Test rig for speed server
+# THROTTLEITERM=0.02 THROTTLEGAIN=0.12 THROTTLEDTERM=10 ID=SPEED ~/sandbox/gc/src/qnx/control/speed/x86/o-g/speed_g -v 
+THROTTLEITERM=0.1 THROTTLEGAIN=0.20 THROTTLEDTERM=1 ID=SPEED ~/sandbox/gc/src/qnx/control/speed/x86/o-g/speed_g -v 
+ID=SPEEDTEST ~/sandbox/gc/src/qnx/support/remotemsgserver/x86/o-g/remotemsgserver_g SPEED

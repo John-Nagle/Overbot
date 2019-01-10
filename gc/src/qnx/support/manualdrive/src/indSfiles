@@ -1,0 +1,1 @@
+MYSRC = ../manualdrive.cpp ../joystickinput.cpp ../moveoutput.cpp ../manualdrivingcontrolmode.cpp ../automodes.cpp

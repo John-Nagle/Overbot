@@ -1,0 +1,3 @@
+#	Start file for sign test
+ID=SIGN /home/nagle/sandbox/gc/src/qnx/drivers/betabrite/signserver /dev/ser1
+ID=SIGNTEST pterm ./signtestscript.sh

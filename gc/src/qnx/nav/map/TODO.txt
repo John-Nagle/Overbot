@@ -1,0 +1,9 @@
+TODO
+
+Get GPSINS basepoint from GPSINS server before loading waypoints. [DONE]
+Make GPSINS server output basepoint, even if not set.							[DONE]
+Implement some mechanism to start and stop driving control loop.		[DONE]
+Check that starting position is on course.												[DONE]
+Get current waypoint from current position, and get speed from it.		[DONE]
+Put log file header in log output from actual driving.								[DONE]
+Check interpretation of angular heading. (0=north, +=towards east)	[DONE]

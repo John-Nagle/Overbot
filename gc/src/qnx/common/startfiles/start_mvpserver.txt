@@ -1,0 +1,17 @@
+#
+#  File: start_mvpserver.txt
+#
+#  Usage:
+#      cd ~/sandbox/gc/src/qnx/common/startfile
+#      ../bin/watchdog start_mvpserver.txt
+#
+#  Description:
+#      Watchdog startup file for MVP Server testing.
+#
+#  Written by:
+#      Celia Oakley
+#      Team Overbot
+#      November, 2003
+#
+###############################################################################
+ID=MVPC pterm ../bin/mvpserver -m

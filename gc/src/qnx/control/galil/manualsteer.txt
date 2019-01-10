@@ -1,0 +1,235 @@
+' Manual steer by wire, test version
+' John Nagle
+' UNTESTED - DO NOT DRIVE WITH THIS
+
+#WHSTEER
+'	Externally visible variables set by computer over the network.
+'	FAULT is the fault code.  Output
+FAULT=0
+'	READY indicates that the system will respond to goal setting.  Output
+READY=0
+'	AUTO is set to take over from manual steering. Input
+AUTO=0
+'	GOAL is set to set the desired steering position. Input.
+GOAL=0
+'	SPEED is desired movement speed. Input 
+SPEED=250000
+
+' Steering wheel parameters
+WHMINV=1.14
+WHMAXV=4.12
+WHMINE=-180
+WHMAXE=180
+' Steering drive parameters
+STMINV=0.0
+STMAXV=5.0
+STMINE=-180000
+STMAXE=180000
+STMAXS=100000
+' Motor torque limited to continuous stall current
+TL 4.89
+' Limit steering to this fraction of the full range
+STRANGE=1.0 
+' Controller gains and speeds (rather ad-hoc, but tolerable)
+KD 256
+KP 50
+KI 0.5
+DC 500000
+AC 500000
+SP 250000
+' System initialization
+STPREVPE=0
+' Initialize steering wheel position
+WHIV=@AN[2]
+NO INITIAL STEERING WHEEL POS IS IN RANGE 0 TO 1.0
+WHIPOS=((WHIV-WHMINV) / (WHMAXV-WHMINV))
+WHIENC=WHMINE + ((WHMAXE-WHMINE)*WHIPOS) 
+DE WHIENC
+' Home the steering drive
+JS #MVHOME
+' Do steering loop
+JS #MSTEER
+EN
+
+' Manual steering
+' At entry steering drive must be homed and steering wheel calibrated
+#MSTEER
+MTIME=50
+STSCAL=(STMAXE-STMINE)/(WHMAXE-WHMINE)
+STMAXM=STMAXS*MTIME*0.001*2.0
+' Set motion limits
+BL STMINE
+FL STMAXE
+' Set allowable movement range, with safety margin near limits
+STMINE=STMINE*STRANGE
+STMAXE=STMAXE*STRANGE
+STPREVM=0
+' Enable motor
+ER 20000
+' No off-on-error
+OE 0
+SH
+SP SPEED
+PA 0
+AM
+STPREVPE=_PA
+#MLOOP
+'	If auto mode, take command from variable GOAL
+IF (AUTO>0)
+IF (FAULT=0)
+READY=1
+ENDIF
+ELSE
+' Manual steering - take command from steering wheel
+WHPOSE=_DE
+GOAL=WHPOSE*STSCAL
+ENDIF
+JS #SMOVE
+WT MTIME
+JP #MLOOP
+EN
+
+'
+'	Steer to requested goal position
+'	
+'	Both manual and auto steering use this.
+'
+'	Input: GOAL
+'	Ouput: FAULT
+'
+#SMOVE
+'	Get steering goal
+STPOS=GOAL
+' Apply limits
+IF (STPOS < STMINE) 
+STPOS=STMINE
+ENDIF
+IF (STPOS > STMAXE)
+STPOS=STMAXE
+ENDIF
+' Limit next move, to prevent committing to an overly large move
+' Commanded position error must not exceed STMAXM
+' Get goal of previous move.  If moving, that's where we are currently going.
+STCURRE=_TP
+' If current position is too far from current goal, don't command a move.
+' The motion needs to settle first.
+IF (@ABS[STCURRE-STPREVPE] > STMAXM)
+STMOVE = 0
+ELSE
+STGOE=STPOS
+' Limit next goal to a range around current position
+HILIM=STCURRE+STMAXM
+LOLIM=STCURRE-STMAXM
+IF (STGOE > HILIM)
+STGOE = HILIM
+ENDIF
+IF (STGOE < LOLIM)
+STGOE = LOLIM
+ENDIF
+' Compute incremental move from previous goal
+STMOVE=@RND[STGOE-STPREVPE]
+ENDIF
+' Must wait for movement stop if direction is reversing.
+IF (((STMOVE>0) & (STPREVM<0)) | ((STMOVE<0) & (STPREVM>0)))
+AM
+'	Debug check for losing position
+IF (STPREVPE <> _PA)
+BADPREVE=STPREVPE
+BADPA=_PA
+HX
+ENDIF
+ENDIF
+'	Command move, relative to last goal position
+IF (STMOVE <> 0)
+IP STMOVE
+STPREVM=STMOVE
+STPREVPE=STPREVPE+STMOVE
+ENDIF
+EN
+
+'	Subroutine
+'	Home steering drive using pot - simple version.
+'	Rather slow.
+'	Returns with steering drive homed and encoder zeroed.
+'	NEED STATUS RETURN
+#MVHOME
+'	Steering pot params
+'	Steering pot is centered at HMHMV
+HMMAXV=0.38
+HMMINV=4.48
+HMMAXE=100000
+HMMINE=-100000
+HMHMV=2.5
+HMVTH=0.1
+HMMAX=100000
+HMPREVM=0
+SP 50000
+'	Scale - encoder counts per volt
+HMSCALE=(HMMAXE-HMMINE)/(HMMAXV-HMMINV)
+ER 20000
+OE 0
+SH
+#HMLOOP
+HMVNOW=@AN[1]
+HMVERR=HMHMV-HMVNOW
+'	Check for close enough to home position
+IF (@ABS[HMVERR] < HMVTH)
+JP #HMDONE 
+ENDIF
+HMMOVE=HMVERR*HMSCALE
+'	Bound size of move
+IF (HMMOVE>HMMAX)
+HMMOVE=HMMAX
+ENDIF
+IF (HMMOVE<-HMMAX)
+HMMOVE=-HMMAX
+ENDIF
+'	Do the move
+IP HMMOVE
+AM
+HMPREVM=HMMOVE
+JP #HMLOOP
+#HMDONE
+'	Set encoder to zero
+DP 0
+EN
+'
+'	Error handling
+'
+'	Position error - stop motor, report error
+#POSERR
+FAULT=1
+READY=0
+BADTP=_TP
+BADPE=STPREVPE
+MO
+HX
+EN
+
+'	Motion took too long
+#MCTIME
+FAULT=2
+READY=0
+MO
+HX
+EN
+
+' 	Limit switch error
+' #LIMSWI
+' FAULT=3
+' READY=0
+' BADTP=_TP
+' BADPE=STPREVPE
+' MO
+' EN
+
+'	Network error
+#TCPERR
+FAULT=4
+READY=0
+MO
+HX
+EN
+
+
+

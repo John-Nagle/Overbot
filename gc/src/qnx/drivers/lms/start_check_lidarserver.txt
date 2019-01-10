@@ -1,0 +1,22 @@
+#
+#  File: start_lidarserver.txt
+#
+#  Usage:
+#      cd ~/sandbox/gc/src/qnx/common/startfile
+#      ../bin/watchdog start_lidarserver.txt
+#
+#  Description:
+#      Watchdog startup file for Lidar Server testing.
+#
+#  Written by:
+#      Eric Seidel
+#      (Modeled on code from Celia Oakley)
+#      Team Overbot
+#      December, 2003
+#
+###############################################################################
+PRI=15 ID=LMS  ~/sandbox/gc/src/qnx/drivers/lms/x86/o/lms  -c LIDARDUMP
+# ID=LMS pterm -Z ./x86/o-g/lms_g  -c LIDARDUMP
+PRI=15 ID=LIDARDUMP pterm -Z ./tests/lmslogger_test/x86/o-g/lmslogger_test_g -t -n 1000 /tmp/logs
+
+

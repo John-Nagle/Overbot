@@ -1,0 +1,22 @@
+#
+#  File: start_lidarserver.txt
+#
+#  Usage:
+#      cd ~/sandbox/gc/src/qnx/common/startfile
+#      ../bin/watchdog start_lidarserver.txt
+#
+#  Description:
+#      Watchdog startup file for Lidar Server testing.
+#
+#  Written by:
+#      Eric Seidel
+#      (Modeled on code from Celia Oakley)
+#      Team Overbot
+#      December, 2003
+#
+###############################################################################
+# Run with -c to specify the ID of the client
+# towards which to send the data.
+ID=LMS pterm -Z ../bin/lms_g -c OPENSTEER
+# OPENSTEER, or the map server should be started as well...
+# ID=OPENSTEER pterm -Z ../../support/watchdog/tests/watchdogtest -v -s
